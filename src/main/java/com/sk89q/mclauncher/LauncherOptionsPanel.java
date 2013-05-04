@@ -36,17 +36,17 @@ public class LauncherOptionsPanel extends OptionsPanel {
         createFieldGroup("Launcher");
         addField(Def.LAUNCHER_NO_NEWS, new JCheckBox("Don't load the news"));
         addField(Def.LAUNCHER_HIDE_NEWS, new JCheckBox("Hide the news panel"));
-        addField(Def.LAUNCHER_ALWAYS_MORE_OPTIONS, new JCheckBox("Start with all options shown"));
+        //addField(Def.LAUNCHER_ALWAYS_MORE_OPTIONS, new JCheckBox("Start with all options shown"));
         addField(Def.LAUNCHER_REOPEN, new JCheckBox("Show the launcher on Minecraft close"));
 
         createFieldGroup("Console");
-        /*addField(Def.LOCAL_CONSOLE, new JCheckBox("Open console in launcher process"))
-        .setToolTipText("Unchecked, the console opens in the same process as Minecraft, which can crash");*/
+        //addField(Def.LOCAL_CONSOLE, new JCheckBox("Open console in launcher process"));
+        //.setToolTipText("Unchecked, the console opens in the same process as Minecraft, which can crash");
         addField(Def.COLORED_CONSOLE, new JCheckBox("Use colors in the console"));
-        addField(Def.CONSOLE_KILLS_PROCESS, new JCheckBox("Kill Minecraft on console close"));
+        //addField(Def.CONSOLE_KILLS_PROCESS, new JCheckBox("Kill Minecraft on console close"));
 
         createFieldGroup("Addons");
-        addField(Def.FAST_TEST, new JCheckBox("Addon test uses offline mode"));
+        addField(Def.FAST_TEST, new JCheckBox("Addon TEST uses offline mode"));
     }
 
 }

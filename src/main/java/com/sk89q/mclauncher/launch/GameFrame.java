@@ -43,11 +43,11 @@ class GameFrame extends JFrame {
     private Applet applet;
 
     GameFrame(Dimension dim) {
-        setTitle("Minecraft");
+        setTitle("Minecraft - Year4000");
         setBackground(Color.BLACK);
         
         try {
-            InputStream in = Launcher.class.getResourceAsStream("/resources/icon.png");
+            InputStream in = Launcher.class.getResourceAsStream("/resources/game_icon.png");
             if (in != null) {
                 setIconImage(ImageIO.read(in));
             }

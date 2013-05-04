@@ -105,7 +105,7 @@ public class LauncherFrame extends JFrame {
      * Construct the launcher.
      */
     public LauncherFrame() {
-        setTitle("SK's Minecraft Launcher");
+        setTitle("Year4000 Custom Launcher");
         setSize(620, 500);
         
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -575,7 +575,8 @@ public class LauncherFrame extends JFrame {
         forceUpdateCheck.setVisible(false);
         playOfflineCheck.setVisible(false);
         showConsoleCheck.setVisible(false);
-
+        playOfflineCheck.setVisible(false);
+        
         userText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -637,8 +638,9 @@ public class LauncherFrame extends JFrame {
                 jarLabel.setVisible(true);
                 jarCombo.setVisible(true);
                 forceUpdateCheck.setVisible(true);
-                playOfflineCheck.setVisible(allowOfflineName);
+                //playOfflineCheck.setVisible(allowOfflineName);
                 showConsoleCheck.setVisible(true);
+                playOfflineCheck.setVisible(true);
                 // registerAccount.setVisible(true);
             }
         });
