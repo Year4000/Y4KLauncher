@@ -19,10 +19,8 @@
 package com.sk89q.mclauncher.config;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 
 import com.sk89q.mclauncher.Launcher;
@@ -40,18 +38,11 @@ public class Constants {
     public static final boolean VERIFY_CUSTOM_DOWNLOADS = false;
     public static final URL NEWS_URL;
         
-    private static final String NEWS_URL_BASE = "http://minecraft.update.sk89q.com/updates/?v=%version%";
+    private static final String NEWS_URL_BASE = "http://update.year4000.net/news";
     
     static {
         try {
             String urlStr = NEWS_URL_BASE;
-
-            try {
-                urlStr = urlStr.replace("%version%",
-                        URLEncoder.encode(Launcher.VERSION, "UTF-8"));
-            } catch (UnsupportedEncodingException e1) {
-            }
-
             NEWS_URL = new URL(urlStr);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -68,8 +59,8 @@ public class Constants {
      *            configurations manager
      */
     public static void register(ConfigurationsManager configsManager) {
-        configsManager.setDefault(configsManager.registerBuiltIn("minecraft",
-                "Default", null, null));
+        configsManager.setDefault(configsManager.registerBuiltIn("minecraft","Default", null, null).loadIcon("/resources/game_icon.png"));
+        configsManager.setDefault(configsManager.registerBuiltIn("year4000","Year4000", "year4000", "http://update.year4000.net/").loadIcon("/resources/server_icon.png"));
     }
 
     /**
@@ -103,6 +94,7 @@ public class Constants {
      * @param hotListManager host list manager
      */
     public static void register(ServerHotListManager hotListManager) {
+    	hotListManager.register("Year4000", "mc.year4000.net", true);
     }
 
 }

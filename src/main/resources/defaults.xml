@@ -15,6 +15,6 @@
     <setting key="launcher.reopen">false</setting>
     <setting key="lwjgl.debug">false</setting>
     <setting key="window.fullscreen">false</setting>
-    <setting key="window.height">480</setting>
-    <setting key="window.width">854</setting>
+    <setting key="window.height">720</setting>
+    <setting key="window.width">1280</setting>
 </settings>

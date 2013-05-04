@@ -106,7 +106,7 @@ public class LauncherFrame extends JFrame {
      */
     public LauncherFrame() {
         setTitle("Year4000 Custom Launcher");
-        setSize(620, 500);
+        setSize(620, 420);
         
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -575,7 +575,6 @@ public class LauncherFrame extends JFrame {
         forceUpdateCheck.setVisible(false);
         playOfflineCheck.setVisible(false);
         showConsoleCheck.setVisible(false);
-        playOfflineCheck.setVisible(false);
         
         userText.addActionListener(new ActionListener() {
             @Override
@@ -860,7 +859,7 @@ public class LauncherFrame extends JFrame {
                 options.setLastUsername(username);
             } else {
                 options.forgetIdentity(username);
-                options.setLastUsername(null);
+                options.setLastUsername(username);
             }
         }
         options.setLastConfigName(getWorkspace().getId());
@@ -872,7 +871,6 @@ public class LauncherFrame extends JFrame {
 
         // Want to update the GUI
         populateIdentities();
-
         LaunchTask task = new LaunchTask(this, getWorkspace(), username, password, jar);
         task.setForceUpdate(forceUpdateCheck.isSelected());
         task.setPlayOffline(playOfflineCheck.isSelected() || (test && options.getSettings().getBool(Def.FAST_TEST, false)));
