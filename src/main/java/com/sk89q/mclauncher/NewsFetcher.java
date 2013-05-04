@@ -99,6 +99,7 @@ public class NewsFetcher {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+            	display.updateUI();
                 progress.setVisible(false);
                 display.setContentType("text/html");
                 display.setText(text);

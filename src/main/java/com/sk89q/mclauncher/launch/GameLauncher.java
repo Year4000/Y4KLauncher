@@ -40,6 +40,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.sk89q.mclauncher.Launcher;
+import com.sk89q.mclauncher.config.Def;
 import com.sk89q.mclauncher.util.BasicArgsParser;
 import com.sk89q.mclauncher.util.BasicArgsParser.ArgsContext;
 import com.sk89q.mclauncher.util.UIUtil;
@@ -71,8 +72,9 @@ public class GameLauncher  {
     }
     
     public void setParameter(String key, String val) {
-        logger.info("Parameter: " + key + "=" + val);
+    	logger.info("Parameter: " + key + "=" + val);
         parameters.put(key, val);
+        	   
     }
     
     public void addAddonPath(String path) {

@@ -74,6 +74,7 @@ import com.sk89q.mclauncher.config.Configuration;
 import com.sk89q.mclauncher.config.Def;
 import com.sk89q.mclauncher.config.LauncherOptions;
 import com.sk89q.mclauncher.config.ServerHotListManager;
+import com.sk89q.mclauncher.launch.GameLauncher;
 import com.sk89q.mclauncher.util.UIUtil;
 
 /**
@@ -85,7 +86,7 @@ public class LauncherFrame extends JFrame {
 
     private static final long serialVersionUID = 4122023031876609883L;
     private static final int PAD = 12;
-    private boolean allowOfflineName = false;
+    private boolean allowOfflineName = true;
     private JList configurationList;
     private JComboBox jarCombo;
     private JComboBox userText;
@@ -100,14 +101,15 @@ public class LauncherFrame extends JFrame {
     private JButton playBtn;
     private LauncherOptions options;
     private TaskWorker worker = new TaskWorker();
+    
 
     /**
      * Construct the launcher.
      */
     public LauncherFrame() {
         setTitle("Year4000 Custom Launcher");
-        setSize(620, 420);
-        
+        setSize(750, 450);
+       
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         try {
@@ -135,10 +137,6 @@ public class LauncherFrame extends JFrame {
         populateIdentities();
         setLastUsername();
 
-        if (options.getSettings().getBool(Def.LAUNCHER_ALWAYS_MORE_OPTIONS,
-                false)) {
-            expandBtn.doClick();
-        }
 
         // Focus initial item
         SwingUtilities.invokeLater(new Runnable() {
@@ -539,22 +537,17 @@ public class LauncherFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean selected = ((JCheckBox) e.getSource()).isSelected();
-                userText.setEnabled(!selected);
                 passText.setEnabled(!selected);
+                if(selected){
+                	passText.setText("");
+                	rememberPass.setSelected(!selected);
+                }
                 rememberPass.setEnabled(!selected);
             }
         });
 
         showConsoleCheck = new JCheckBox("Launch with console");
         showConsoleCheck.setBorder(null);
-
-        expandBtn = new LinkButton("More options...");
-        final JPanel expandContainer = new JPanel();
-        expandContainer.setLayout(new BoxLayout(expandContainer,
-                BoxLayout.X_AXIS));
-        expandContainer.setBorder(null);
-        expandContainer.add(expandBtn);
-        expandContainer.add(Box.createHorizontalGlue());
 
         panel.add(jarLabel, labelC);
         panel.add(jarCombo, fieldC);
@@ -567,14 +560,13 @@ public class LauncherFrame extends JFrame {
         panel.add(forceUpdateCheck, checkboxC);
         panel.add(playOfflineCheck, checkboxC);
         panel.add(showConsoleCheck, checkboxC);
-        panel.add(expandContainer, checkboxC);
 
         autoConnectCheck.setVisible(false);
-        jarLabel.setVisible(false);
-        jarCombo.setVisible(false);
-        forceUpdateCheck.setVisible(false);
-        playOfflineCheck.setVisible(false);
-        showConsoleCheck.setVisible(false);
+        jarLabel.setVisible(true);
+        jarCombo.setVisible(true);
+        forceUpdateCheck.setVisible(true);
+        playOfflineCheck.setVisible(true);
+        showConsoleCheck.setVisible(true);
         
         userText.addActionListener(new ActionListener() {
             @Override
@@ -627,20 +619,6 @@ public class LauncherFrame extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     launch();
                 }
-            }
-        });
-
-        expandBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                expandContainer.setVisible(false);
-                jarLabel.setVisible(true);
-                jarCombo.setVisible(true);
-                forceUpdateCheck.setVisible(true);
-                //playOfflineCheck.setVisible(allowOfflineName);
-                showConsoleCheck.setVisible(true);
-                playOfflineCheck.setVisible(true);
-                // registerAccount.setVisible(true);
             }
         });
 
@@ -861,6 +839,8 @@ public class LauncherFrame extends JFrame {
                 options.forgetIdentity(username);
                 options.setLastUsername(username);
             }
+        } else{
+        	options.setLastUsername(username);
         }
         options.setLastConfigName(getWorkspace().getId());
         options.save();

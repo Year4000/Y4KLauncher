@@ -33,6 +33,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.sk89q.mclauncher.Launcher;
+import com.sk89q.mclauncher.config.LauncherOptions;
 
 class GameFrame extends JFrame {
     
@@ -43,9 +44,8 @@ class GameFrame extends JFrame {
     private Applet applet;
 
     GameFrame(Dimension dim) {
-        setTitle("Minecraft - Year4000");
+        setTitle("Minecraft");
         setBackground(Color.BLACK);
-        
         try {
             InputStream in = Launcher.class.getResourceAsStream("/resources/game_icon.png");
             if (in != null) {

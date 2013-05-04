@@ -32,7 +32,6 @@ public class Def {
     public static final String LAUNCHER_NO_NEWS = "launcher.newsless";
     public static final String LAUNCHER_ALLOW_OFFLINE_NAME = "launcher.allowofflinename";
     public static final String LAUNCHER_HIDE_NEWS = "launcher.hidenews";
-    public static final String LAUNCHER_ALWAYS_MORE_OPTIONS = "launcher.always-more-options";
     public static final String LAUNCHER_REOPEN = "launcher.reopen";
     public static final String WINDOW_WIDTH = "window.width";
     public static final String WINDOW_HEIGHT = "window.height";
@@ -45,6 +44,8 @@ public class Def {
     public static final String JAVA_WRAPPER_PROGRAM = "java.wrapper-program";
     public static final String JAVA_CONSOLE = "java.console";
     public static final String LWJGL_DEBUG = "lwjgl.debug";
+    public String OFFLINE_LOGIN = "";
+    public String OFFLINE_USERNAME = "";
     
     private Def() {
     }
