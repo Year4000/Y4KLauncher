@@ -1,4 +1,6 @@
-Copyright (c) 2010-2011 Albert Pham <http://www.sk89q.com> 
+Y4KLauncher (c) 2013 - modify by ewized <http://www.ewized.com>
+
+The original version of this launcher was made by Albert Pham <http://www.sk89q.com> 
 
 This launcher includes code from Julien Ponge to process LZMA compressed files, licensed under the Apache License, version 2.0. <http://julien.ponge.info/> 
 

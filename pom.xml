@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>3.1.7-SNAPSHOT</version>
-  <name>SK's Minecraft Launcher</name>
-  <description>SK's launcher for Minecraft.</description>
-  <url>http://www.sk89q.com</url>
+  <version>2</version>
+  <name>Y4Klauncher</name>
+  <description>Minecraft launcher for Year4000</description>
+  <url>http://www.year4000.net</url>
   <scm>
     <connection>scm:git:git://github.com/sk89q/skmclauncher.git</connection>
     <url>https://github.com/sk89q/skmclauncher</url>
@@ -37,7 +37,7 @@
     <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
     <outputDirectory>${basedir}/target/classes</outputDirectory>
     <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
-    <finalName>SKMCLauncher</finalName>
+    <finalName>Y4KLauncher</finalName>
     <resources>
       <resource>
         <targetPath>resources</targetPath>
@@ -149,7 +149,7 @@
               <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
               <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
               <jvmVersion>1.6+</jvmVersion>
-              <zipFile>${project.build.directory}/${project.build.finalName}.zip</zipFile>
+              <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
               <iconFile>icon.icns</iconFile>
           </configuration>
           <executions>

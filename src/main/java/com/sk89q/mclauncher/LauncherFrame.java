@@ -19,8 +19,10 @@
 package com.sk89q.mclauncher;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -101,6 +103,8 @@ public class LauncherFrame extends JFrame {
     private JButton playBtn;
     private LauncherOptions options;
     private TaskWorker worker = new TaskWorker();
+    Color bgColor = Color.darkGray;
+    Color fgColor = Color.lightGray;
     
 
     /**
@@ -328,10 +332,13 @@ public class LauncherFrame extends JFrame {
     private void showNews(JLayeredPane newsPanel) {
         final LauncherFrame self = this;
         newsPanel.setLayout(new NewsLayoutManager());
-        newsPanel
-            .setBorder(BorderFactory.createEmptyBorder(PAD, 0, PAD, PAD));
+        newsPanel.setBorder(BorderFactory.createEmptyBorder(PAD, 0, PAD, PAD));
+        newsPanel.setBackground(bgColor);
+        newsPanel.setForeground(fgColor);
+        newsPanel.setOpaque(true);
         JEditorPane newsView = new JEditorPane();
         newsView.setEditable(false);
+        newsView.setBorder(BorderFactory.createEmptyBorder());
         newsView.addHyperlinkListener(new HyperlinkListener() {
             @Override
             public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -357,17 +364,20 @@ public class LauncherFrame extends JFrame {
         setLayout(new BorderLayout(0, 0));
         boolean hidenews = options.getSettings().getBool(Def.LAUNCHER_HIDE_NEWS, false);
         allowOfflineName = options.getSettings().getBool(
-                Def.LAUNCHER_ALLOW_OFFLINE_NAME, false);
+                Def.LAUNCHER_ALLOW_OFFLINE_NAME, true);
         
         if (!hidenews) {
             if (options.getSettings().getBool(Def.LAUNCHER_NO_NEWS, false)) {
                 final JLayeredPane newsPanel = new JLayeredPane();
                 
                 newsPanel.setBorder(new CompoundBorder(BorderFactory
-                        .createEmptyBorder(PAD, 0, PAD, PAD), new CompoundBorder(
+                		.createEmptyBorder(PAD, 0, PAD, PAD), new CompoundBorder(
                         BorderFactory.createEtchedBorder(), BorderFactory
                                 .createEmptyBorder(4, 4, 4, 4))));
                 newsPanel.setLayout(new BoxLayout(newsPanel, BoxLayout.Y_AXIS));
+                newsPanel.setBackground(bgColor);
+                newsPanel.setForeground(fgColor);
+                newsPanel.setOpaque(true);
                 
                 final JButton showNews = new JButton("Show news");
                 showNews.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -389,6 +399,9 @@ public class LauncherFrame extends JFrame {
                 add(newsPanel, BorderLayout.CENTER);
             } else {
                 JLayeredPane newsPanel = new JLayeredPane();
+                newsPanel.setBackground(bgColor);
+                newsPanel.setForeground(fgColor);
+                newsPanel.setOpaque(true);
                 showNews(newsPanel);
                 add(newsPanel, BorderLayout.CENTER);
             }
@@ -410,17 +423,23 @@ public class LauncherFrame extends JFrame {
         buttonsPanel.add(playBtn);
         buttonsPanel.add(addonsBtn);
         buttonsPanel.add(optionsBtn);
+        buttonsPanel.setBackground(bgColor);
+        buttonsPanel.setForeground(fgColor);
 
         JPanel root = new JPanel();
         root.setBorder(BorderFactory.createEmptyBorder(0, PAD, PAD, PAD));
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
         root.add(createLoginPanel());
         root.add(buttonsPanel);
+        root.setBackground(bgColor);
+        root.setForeground(fgColor);
         leftPanel.add(root, BorderLayout.SOUTH);
 
         JPanel configurationsPanel = new JPanel();
         configurationsPanel.setLayout(new BorderLayout(0, 0));
         configurationsPanel.setBorder(BorderFactory.createEmptyBorder(PAD, PAD, PAD, PAD));
+        configurationsPanel.setBackground(bgColor);
+        configurationsPanel.setForeground(fgColor);
         configurationList = new JList(options.getConfigurations());
         configurationList.setCellRenderer(new ConfigurationCellRenderer());
         configurationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -489,6 +508,8 @@ public class LauncherFrame extends JFrame {
         JPanel panel = new JPanel();
 
         panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        panel.setBackground(bgColor);
+        panel.setForeground(fgColor);
 
         GridBagConstraints fieldC = new GridBagConstraints();
         fieldC.fill = GridBagConstraints.HORIZONTAL;
@@ -524,15 +545,27 @@ public class LauncherFrame extends JFrame {
 
         rememberPass = new JCheckBox("Remember my password");
         rememberPass.setBorder(null);
+        rememberPass.setBackground(bgColor);
+        rememberPass.setForeground(fgColor);
+        rememberPass.setFont(new Font("Arial", Font.BOLD, 12));
 
         autoConnectCheck = new JCheckBox("Auto-connect");
         autoConnectCheck.setBorder(null);
+        autoConnectCheck.setBackground(bgColor);
+        autoConnectCheck.setForeground(fgColor);
+        autoConnectCheck.setFont(new Font("Arial", Font.BOLD, 12));
 
         forceUpdateCheck = new JCheckBox("Force a game update");
         forceUpdateCheck.setBorder(null);
+        forceUpdateCheck.setBackground(bgColor);
+        forceUpdateCheck.setForeground(fgColor);
+        forceUpdateCheck.setFont(new Font("Arial", Font.BOLD, 12));
 
         playOfflineCheck = new JCheckBox("Play in offline mode");
         playOfflineCheck.setBorder(null);
+        playOfflineCheck.setBackground(bgColor);
+        playOfflineCheck.setForeground(fgColor);
+        playOfflineCheck.setFont(new Font("Arial", Font.BOLD, 12));
         playOfflineCheck.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -548,9 +581,16 @@ public class LauncherFrame extends JFrame {
 
         showConsoleCheck = new JCheckBox("Launch with console");
         showConsoleCheck.setBorder(null);
+        showConsoleCheck.setBackground(bgColor);
+        showConsoleCheck.setForeground(fgColor);
+        showConsoleCheck.setFont(new Font("Arial", Font.BOLD, 12));
+        userLabel.setForeground(fgColor);
+        userLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        passLabel.setForeground(fgColor);
+        passLabel.setFont(new Font("Arial", Font.BOLD, 12));
 
-        panel.add(jarLabel, labelC);
-        panel.add(jarCombo, fieldC);
+        //panel.add(jarLabel, labelC);
+        //panel.add(jarCombo, fieldC);
         panel.add(userLabel, labelC);
         panel.add(userText, fieldC);
         panel.add(passLabel, labelC);
@@ -562,8 +602,8 @@ public class LauncherFrame extends JFrame {
         panel.add(showConsoleCheck, checkboxC);
 
         autoConnectCheck.setVisible(false);
-        jarLabel.setVisible(true);
-        jarCombo.setVisible(true);
+        //jarLabel.setVisible(true);
+        //jarCombo.setVisible(true);
         forceUpdateCheck.setVisible(true);
         playOfflineCheck.setVisible(true);
         showConsoleCheck.setVisible(true);

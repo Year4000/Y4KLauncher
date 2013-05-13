@@ -108,7 +108,7 @@ public class Launcher {
     private Launcher() {
         instance = this;
         
-        System.setProperty("http.agent", "SKMCLauncher/" + VERSION + " (+http://www.sk89q.com)");
+        System.setProperty("http.agent", "Y4KLauncher " + VERSION);
         
         // Read options
         File base = getLauncherDataDir();
@@ -298,17 +298,17 @@ public class Launcher {
             case WINDOWS:
                 String applicationData = System.getenv("APPDATA");
                 if (applicationData != null) {
-                    workingDir = new File(applicationData, "SKMCLauncher");
+                    workingDir = new File(applicationData, "Y4KLauncher");
                 } else {
-                    workingDir = new File(homeDir, "SKMCLauncher");
+                    workingDir = new File(homeDir, "Y4KLauncher");
                 }
                 break;
             case MAC_OS_X:
                 workingDir = new File(homeDir,
-                        "Library/Application Support/SKMCLauncher");
+                        "Library/Application Support/Y4KLauncher");
                 break;
             default:
-                workingDir = new File(homeDir, "SKMCLauncher");
+                workingDir = new File(homeDir, "Y4KLauncher");
         }
         if (!new File(workingDir, "config.xml").exists()) {
             workingDir = getOfficialDataDir();

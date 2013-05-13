@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>target/SKMCLauncher.jar</jar>
-  <outfile>target/SKMCLauncher.exe</outfile>
+  <jar>target\Y4KLauncher.jar</jar>
+  <outfile>target\Y4KLauncher.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -20,15 +20,15 @@
     <jdkPreference>preferJre</jdkPreference>
   </jre>
   <versionInfo>
-    <fileVersion>3.1.0.0</fileVersion>
-    <txtFileVersion>SK&apos;s Minecraft Launcher</txtFileVersion>
-    <fileDescription>Launcher for Minecraft</fileDescription>
+    <fileVersion>2.0.0.0</fileVersion>
+    <txtFileVersion>Y4KLauncher</txtFileVersion>
+    <fileDescription>Minecraft launcher for Year4000</fileDescription>
     <copyright>Albert Pham &lt;http://www.sk89q.com&gt;</copyright>
-    <productVersion>3.1.0.0</productVersion>
-    <txtProductVersion>SK&apos;s Minecraft Launcher</txtProductVersion>
-    <productName>SK&apos;s Minecraft Launcher</productName>
+    <productVersion>2.0.0.0</productVersion>
+    <txtProductVersion>Y4KLauncher</txtProductVersion>
+    <productName>Y4KLauncher</productName>
     <companyName></companyName>
-    <internalName>SK&apos;s Minecraft Launcher</internalName>
-    <originalFilename>SKMCLauncher.exe</originalFilename>
+    <internalName>Y4KLauncher</internalName>
+    <originalFilename>Y4KLauncher.exe</originalFilename>
   </versionInfo>
 </launch4jConfig>

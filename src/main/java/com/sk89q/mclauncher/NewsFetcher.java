@@ -113,7 +113,7 @@ public class NewsFetcher {
             @Override
             public void run() {
                 progress.setVisible(false);
-                display.setContentType("text/plain");
+                display.setContentType("text/html");
                 display.setText(text);
                 display.setCaretPosition(0);
             }

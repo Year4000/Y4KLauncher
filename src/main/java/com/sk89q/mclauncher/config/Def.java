@@ -44,8 +44,6 @@ public class Def {
     public static final String JAVA_WRAPPER_PROGRAM = "java.wrapper-program";
     public static final String JAVA_CONSOLE = "java.console";
     public static final String LWJGL_DEBUG = "lwjgl.debug";
-    public String OFFLINE_LOGIN = "";
-    public String OFFLINE_USERNAME = "";
     
     private Def() {
     }
