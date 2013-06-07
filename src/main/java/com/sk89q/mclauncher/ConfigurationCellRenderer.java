@@ -34,7 +34,6 @@ public class ConfigurationCellRenderer implements ListCellRenderer {
         }
     }
 
-    @Override
     public Component getListCellRendererComponent(final JList list, final Object value,
             int index, final boolean isSelected, boolean cellHasFocus) {
         final Configuration configuration = (Configuration) value;
@@ -79,7 +78,7 @@ public class ConfigurationCellRenderer implements ListCellRenderer {
             this.icon = icon;
         }
 
-        @Override
+        
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             Dimension dim = getPreferredSize();

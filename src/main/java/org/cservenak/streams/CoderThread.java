@@ -35,7 +35,6 @@ public class CoderThread extends Thread {
         this.inSink = new PipedInputStream();
         this.outSink = new PipedOutputStream(inSink);
         this.workhorse = new Runnable() {
-            @Override
             public void run() {
                 try {
                     coder.code(in, outSink);
@@ -55,7 +54,6 @@ public class CoderThread extends Thread {
         this.outSink = new PipedOutputStream();
         this.inSink = new PipedInputStream(outSink);
         this.workhorse = new Runnable() {
-            @Override
             public void run() {
                 try {
                     coder.code(inSink, out);
@@ -70,7 +68,7 @@ public class CoderThread extends Thread {
         };
     }
 
-    @Override
+    
     public void run() {
         workhorse.run();
     }

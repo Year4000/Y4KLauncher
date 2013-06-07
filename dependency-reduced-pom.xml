@@ -7,17 +7,8 @@
   <version>2</version>
   <description>Minecraft launcher for Year4000</description>
   <url>http://www.year4000.net</url>
-  <scm>
-    <connection>scm:git:git://github.com/sk89q/skmclauncher.git</connection>
-    <developerConnection>scm:git:git@github.com:sk89q/skmclauncher.git</developerConnection>
-    <url>https://github.com/sk89q/skmclauncher</url>
-  </scm>
   <build>
-    <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
-    <scriptSourceDirectory>${basedir}/src/main/scripts</scriptSourceDirectory>
-    <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
-    <outputDirectory>${basedir}/target/classes</outputDirectory>
-    <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+    <defaultGoal>install</defaultGoal>
     <resources>
       <resource>
         <targetPath>resources</targetPath>

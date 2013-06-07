@@ -68,7 +68,7 @@ public class ArchiveFile extends PackageFile {
     /**
      * Deploy.
      */
-    @Override
+    
     public void deploy(UninstallLog log) throws IOException {
         File parent = getFile().getParentFile();
         
@@ -134,7 +134,7 @@ public class ArchiveFile extends PackageFile {
     /**
      * Verify.
      */
-    @Override
+    
     public void verify(SignatureVerifier verifier) throws SecurityException,
             IOException {
         verifier.verify(getInputStream(), Util.getExtension(getOriginalFilename()));

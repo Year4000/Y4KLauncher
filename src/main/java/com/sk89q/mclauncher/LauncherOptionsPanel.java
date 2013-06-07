@@ -31,7 +31,7 @@ public class LauncherOptionsPanel extends OptionsPanel {
         super(settings, withUse);
     }
     
-    @Override
+    
     protected void buildControls() {
         createFieldGroup("Launcher");
         addField(Def.LAUNCHER_NO_NEWS, new JCheckBox("Don't load the news"));

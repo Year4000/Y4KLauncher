@@ -57,22 +57,18 @@ public class URLConnectionDownloader extends AbstractDownloader {
         return conn;
     }
     
-    @Override
     public long getTotalLength() {
         return length;
     }
 
-    @Override
     public long getDownloadedLength() {
         return readLength;
     }
 
-    @Override
     public String getEtag() {
         return etag;
     }
 
-    @Override
     public boolean download() throws IOException {
         conn = null;
         BufferedInputStream buffInput = null;

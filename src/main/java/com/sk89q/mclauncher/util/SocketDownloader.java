@@ -68,17 +68,14 @@ public class SocketDownloader extends AbstractDownloader {
         return conn;
     }
     
-    @Override
     public long getTotalLength() {
         return length;
     }
 
-    @Override
     public long getDownloadedLength() {
         return readLength;
     }
 
-    @Override
     public String getEtag() {
         return etag;
     }
@@ -91,7 +88,6 @@ public class SocketDownloader extends AbstractDownloader {
         }
     }
 
-    @Override
     public boolean download() throws IOException {
         conn = null;
         length = -1;

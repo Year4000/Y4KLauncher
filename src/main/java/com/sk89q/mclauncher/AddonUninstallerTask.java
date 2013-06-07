@@ -35,7 +35,7 @@ public class AddonUninstallerTask extends Task {
         this.addons = addons;
     }
 
-    @Override
+    
     protected void execute() throws ExecutionException {
         fireTitleChange("Uninstalling addons...");
         
@@ -60,7 +60,7 @@ public class AddonUninstallerTask extends Task {
         }
     }
 
-    @Override
+    
     public Boolean cancel() {
         running = false;
         return null;

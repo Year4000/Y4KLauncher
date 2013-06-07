@@ -55,7 +55,7 @@ public class AddonInstallerTask extends Task {
         this.file = file;
     }
 
-    @Override
+    
     protected void execute() throws ExecutionException {
         fireTitleChange("Installing addon...");
         fireStatusChange("Installing " + file.getName() + "...");
@@ -179,7 +179,6 @@ public class AddonInstallerTask extends Task {
         if (multipleMunge && !hasMcmodInfo) {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
-                    @Override
                     public void run() {
                         JOptionPane.showMessageDialog(
                                 getComponent(),
@@ -204,7 +203,6 @@ public class AddonInstallerTask extends Task {
         if (addonsProfile.hasInstalled(id)) {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
-                    @Override
                     public void run() {
                         removeOther = JOptionPane.showConfirmDialog(
                                 getComponent(),
@@ -329,7 +327,7 @@ public class AddonInstallerTask extends Task {
         }
     }
 
-    @Override
+    
     public Boolean cancel() {
         running = false;
         return null;

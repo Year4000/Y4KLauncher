@@ -71,7 +71,7 @@ public class BinTree extends InWindow {
         }
     }
 
-    @Override
+    
     public void init() throws IOException {
         super.init();
         Arrays.fill(_hash, 0, _hashSizeSum, kEmptyHashValue);
@@ -79,7 +79,7 @@ public class BinTree extends InWindow {
         reduceOffsets(-1);
     }
 
-    @Override
+    
     public void movePos() throws IOException {
         if (++_cyclicBufferPos >= _cyclicBufferSize) {
             _cyclicBufferPos = 0;

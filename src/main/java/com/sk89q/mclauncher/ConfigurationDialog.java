@@ -186,7 +186,6 @@ public class ConfigurationDialog extends JDialog {
         container.add(buttonsPanel, BorderLayout.SOUTH);
 
         okBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if (complete()) {
                     self.dispose();
@@ -195,7 +194,6 @@ public class ConfigurationDialog extends JDialog {
         });
         
         cancelBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 self.dispose();
             }
@@ -272,7 +270,6 @@ public class ConfigurationDialog extends JDialog {
         panel.add(urlText, fieldConstraints);
         
         browseBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 openPathBrowser();
             }
@@ -281,7 +278,6 @@ public class ConfigurationDialog extends JDialog {
         pathText.setEnabled(false);
         browseBtn.setEnabled(false);
         customPathCheck.addChangeListener(new ChangeListener() {
-            @Override
             public void stateChanged(ChangeEvent e) {
                 pathText.setEnabled(((JCheckBox) e.getSource()).isSelected());
                 browseBtn.setEnabled(((JCheckBox) e.getSource()).isSelected());
@@ -290,7 +286,6 @@ public class ConfigurationDialog extends JDialog {
         
         urlText.setEnabled(false);
         customUpdateCheck.addChangeListener(new ChangeListener() {
-            @Override
             public void stateChanged(ChangeEvent e) {
                 urlText.setEnabled(((JCheckBox) e.getSource()).isSelected());
             }
@@ -385,13 +380,13 @@ public class ConfigurationDialog extends JDialog {
         chooser.setDialogTitle("Select folder");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setFileFilter(new FileFilter() {
-            @Override
+            
             public boolean accept(File pathname) {
                 if (pathname.isDirectory()) return true;
                 return false;
             }
 
-            @Override
+            
             public String getDescription() {
                 return "Directories";
             }

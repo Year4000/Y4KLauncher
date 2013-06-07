@@ -53,7 +53,6 @@ public class NewsFetcher {
         progress.setVisible(true);
         
         Thread thread = new Thread(new Runnable() {
-            @Override
             public void run() {
                 HttpURLConnection conn = null;
                         
@@ -97,7 +96,6 @@ public class NewsFetcher {
     
     private static void setDisplay(final JEditorPane display, final JProgressBar progress, final String text) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
             	display.updateUI();
                 progress.setVisible(false);
@@ -110,7 +108,6 @@ public class NewsFetcher {
     
     private static void setError(final JEditorPane display, final JProgressBar progress, final String text) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 progress.setVisible(false);
                 display.setContentType("text/html");

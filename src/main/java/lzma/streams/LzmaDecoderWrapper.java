@@ -33,7 +33,6 @@ public class LzmaDecoderWrapper implements Coder {
         this.decoder = decoder;
     }
 
-    @Override
     public void code(final InputStream in, final OutputStream out)
             throws IOException {
         byte[] properties = new byte[5];

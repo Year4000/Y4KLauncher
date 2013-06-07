@@ -54,7 +54,7 @@ public class ProgressDialog extends JDialog implements ProgressListener {
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            @Override
+            
             public void windowClosing(WindowEvent event) {
                 tryCancelling();
             }
@@ -105,7 +105,6 @@ public class ProgressDialog extends JDialog implements ProgressListener {
         add(container); 
         
         cancelButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 tryCancelling();
             }
@@ -114,32 +113,26 @@ public class ProgressDialog extends JDialog implements ProgressListener {
         pack();
     }
 
-    @Override
     public void titleChanged(final TitleChangeEvent event) {
         final ProgressDialog self = this;
         
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 self.setTitle(event.getMessage());
             }
         });
     }
 
-    @Override
     public void statusChanged(final StatusChangeEvent event) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 statusLabel.setText(event.getMessage());
             }
         });
     }
 
-    @Override
     public void valueChanged(final ValueChangeEvent event) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 double value = event.getNewValue();
                 if (value < 0) {
@@ -152,12 +145,10 @@ public class ProgressDialog extends JDialog implements ProgressListener {
         });
     }
 
-    @Override
     public void completed(EventObject eventObject) {
         final ProgressDialog self = this;
         
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 self.dispose();
             }

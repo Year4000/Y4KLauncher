@@ -36,17 +36,17 @@ public class CoderOutputStream extends OutputStream {
         this.ct.start();
     }
 
-    @Override
+    
     public void write(int b) throws IOException {
         out.write(b);
     }
 
-    @Override
+    
     public void write(byte b[]) throws IOException {
         write(b, 0, b.length);
     }
 
-    @Override
+    
     public void write(byte b[], int off, int len) throws IOException {
         if ((off | len | (b.length - (len + off)) | (off + len)) < 0) {
             throw new IndexOutOfBoundsException();
@@ -54,12 +54,12 @@ public class CoderOutputStream extends OutputStream {
         out.write(b, off, len);
     }
 
-    @Override
+    
     public void flush() throws IOException {
         out.flush();
     }
 
-    @Override
+    
     public void close() throws IOException {
         try {
             flush();

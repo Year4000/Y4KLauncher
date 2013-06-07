@@ -32,29 +32,24 @@ public class IterableNodeList implements NodeList, Iterable<Node> {
         this.list = list;
     }
 
-    @Override
     public Node item(int index) {
         return list.item(index);
     }
 
-    @Override
     public int getLength() {
         return list.getLength();
     }
 
-    @Override
     public Iterator<Node> iterator() {
         final int len = getLength();
         
         return new Iterator<Node>() {
             private int index = 0;
 
-            @Override
             public boolean hasNext() {
                 return index < len;
             }
 
-            @Override
             public Node next() {
                 Node node = item(index);
                 if (node == null) {
@@ -64,7 +59,6 @@ public class IterableNodeList implements NodeList, Iterable<Node> {
                 return node;
             }
 
-            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }

@@ -151,7 +151,6 @@ public class OptionsDialog extends JDialog {
         container.add(buttonsPanel, BorderLayout.SOUTH);
 
         okButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if (save(true)) {
                     self.dispose();
@@ -160,7 +159,6 @@ public class OptionsDialog extends JDialog {
         });
 
         cancelButton.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 self.dispose();
             }
@@ -209,7 +207,6 @@ public class OptionsDialog extends JDialog {
         panel.add(tableScroll, BorderLayout.CENTER);
 
         newBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 new ConfigurationDialog(self, options.getConfigurations())
                         .setVisible(true);
@@ -217,7 +214,6 @@ public class OptionsDialog extends JDialog {
         });
 
         modifyBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 int min = configsTable.getSelectionModel()
                         .getMinSelectionIndex();
@@ -242,7 +238,6 @@ public class OptionsDialog extends JDialog {
         });
 
         removeBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 int min = configsTable.getSelectionModel()
                         .getMinSelectionIndex();
@@ -330,7 +325,6 @@ public class OptionsDialog extends JDialog {
         panel.add(Box.createVerticalGlue());
 
         btn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 UIUtil.openURL("http://www.sk89q.com", self);
             }
@@ -338,11 +332,9 @@ public class OptionsDialog extends JDialog {
         
         // Fetch notices
         new Thread(new Runnable() {
-            @Override
             public void run() {
                 final String notices = Launcher.getNotices();
                 SwingUtilities.invokeLater(new Runnable() {
-                    @Override
                     public void run() {
                         text.setText(notices);
                     }

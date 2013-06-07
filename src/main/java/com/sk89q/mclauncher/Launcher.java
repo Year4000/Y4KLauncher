@@ -393,7 +393,6 @@ public class Launcher {
         
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-                @Override
                 public void run() {
                     ConsoleFrame frame = consoleFrame;
                     if (frame == null || frame.isActive()) {
@@ -485,7 +484,6 @@ public class Launcher {
 
         new Launcher();
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 LauncherFrame frame = new LauncherFrame();
                 frame.setVisible(true);
@@ -510,7 +508,6 @@ public class Launcher {
      */
     static void startLauncherFrame() {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 LauncherFrame frame = new LauncherFrame();
                 frame.setVisible(true);

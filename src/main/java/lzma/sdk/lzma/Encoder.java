@@ -281,7 +281,7 @@ public class Encoder {
             }
         }
 
-        @Override
+        
         public void encode(lzma.sdk.rangecoder.Encoder rangeEncoder,
                 int symbol, int posState) throws IOException {
             super.encode(rangeEncoder, symbol, posState);

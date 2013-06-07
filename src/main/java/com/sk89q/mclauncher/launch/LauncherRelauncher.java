@@ -32,7 +32,6 @@ public class LauncherRelauncher implements Runnable {
         this.originalAppData = originalAppData;
     }
 
-    @Override
     public void run() {
         String launcherPath;
         try {

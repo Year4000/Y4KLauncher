@@ -105,7 +105,6 @@ public abstract class Task implements Runnable {
     /**
      * Execute the task.
      */
-    @Override
     public final void run() {
         try {
             execute();
@@ -115,7 +114,6 @@ public abstract class Task implements Runnable {
             // won't be counted as an unhandled error
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
-                    @Override
                     public void run() {
                         JOptionPane.showMessageDialog(component,
                                 e.getMessage(),

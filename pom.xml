@@ -6,17 +6,11 @@
   <name>Y4Klauncher</name>
   <description>Minecraft launcher for Year4000</description>
   <url>http://www.year4000.net</url>
-  <scm>
-    <connection>scm:git:git://github.com/sk89q/skmclauncher.git</connection>
-    <url>https://github.com/sk89q/skmclauncher</url>
-    <developerConnection>scm:git:git@github.com:sk89q/skmclauncher.git</developerConnection>
-  </scm>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <signerKeyStore />
-    <signerPassword />
-    <signerAlias />
   </properties>
+  
   <repositories>
       <!-- Provides us with Simple NBT -->
       <repository>
@@ -24,6 +18,7 @@
           <url>http://repo.spout.org</url>
       </repository>
   </repositories>
+  
   <dependencies>
       <dependency>
           <groupId>org.spout</groupId>
@@ -31,13 +26,11 @@
           <version>1.0.4-SNAPSHOT</version>
       </dependency>
   </dependencies>
+  
   <build>
-    <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
-    <scriptSourceDirectory>${basedir}/src/main/scripts</scriptSourceDirectory>
-    <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
-    <outputDirectory>${basedir}/target/classes</outputDirectory>
-    <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+    <defaultGoal>install</defaultGoal>
     <finalName>Y4KLauncher</finalName>
+    
     <resources>
       <resource>
         <targetPath>resources</targetPath>
@@ -52,6 +45,7 @@
           <include>*.png</include>
         </includes>
       </resource>
+      
       <resource>
         <targetPath>resources</targetPath>
         <filtering>false</filtering>
@@ -61,6 +55,7 @@
         </includes>
       </resource>
     </resources>
+    
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

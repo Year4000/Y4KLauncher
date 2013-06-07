@@ -163,7 +163,7 @@ public class LaunchTask extends Task {
     /**
      * Execute the launch task.
      */
-    @Override
+    
     public void execute() throws ExecutionException {
         rootDir = configuration.getMinecraftDir();
         rootDir.mkdirs();
@@ -323,7 +323,6 @@ public class LaunchTask extends Task {
         // Create console
         if (showConsole) {
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
                 public void run() {
                     ConsoleFrame consoleFrame = new ConsoleFrame(
                             10000, coloredConsole, proc, consoleKillsProcess);
@@ -366,7 +365,6 @@ public class LaunchTask extends Task {
         
         if (showConsole || relaunch) {
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
                 public void run() {
                     frame.dispose();
                 }
@@ -374,7 +372,6 @@ public class LaunchTask extends Task {
             
             if (relaunch) {
                 new Thread(new Runnable() {
-                    @Override
                     public void run() {
                         try {
                             if (!showConsole) {
@@ -426,7 +423,6 @@ public class LaunchTask extends Task {
             e.printStackTrace();
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
-                    @Override
                     public void run() {
                         String message;
                         if (e instanceof UnknownHostException) {
@@ -512,7 +508,6 @@ public class LaunchTask extends Task {
                 // Uh oh, update check went wrong!
                 try {
                     SwingUtilities.invokeAndWait(new Runnable() {
-                        @Override
                         public void run() {
                             String message;
                             if (e instanceof UnknownHostException) {
@@ -551,7 +546,6 @@ public class LaunchTask extends Task {
         if (!forceUpdate && updateRequired && !notInstalled) {
             try {
                 SwingUtilities.invokeAndWait(new Runnable() {
-                    @Override
                     public void run() {
                         if (JOptionPane.showConfirmDialog(getComponent(), 
                                 "An update is available. Would you like to update?",
@@ -655,7 +649,7 @@ public class LaunchTask extends Task {
         /*
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-                @Override
+                
                 public void run() {
                     JOptionPane.showMessageDialog(getComponent(),
                             "Your game has been updated. If you encounter problems, " +
@@ -671,7 +665,7 @@ public class LaunchTask extends Task {
     /**
      * Request a cancel.
      */
-    @Override
+    
     public Boolean cancel() {
         if (JOptionPane.showConfirmDialog(getComponent(), "Are you sure you want to cancel?",
             "Cancel", JOptionPane.YES_NO_OPTION) != 0) {

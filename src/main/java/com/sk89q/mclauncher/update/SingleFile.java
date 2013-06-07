@@ -48,7 +48,7 @@ public class SingleFile extends PackageFile {
     /**
      * Deploy.
      */
-    @Override
+    
     public void deploy(UninstallLog log) throws IOException {
         log.add(getFile(), getFile());
         
@@ -81,7 +81,7 @@ public class SingleFile extends PackageFile {
     /**
      * Verify.
      */
-    @Override
+    
     public void verify(SignatureVerifier verifier) throws SecurityException,
             IOException {
         verifier.verify(getInputStream(), Util.getExtension(getOriginalFilename()));

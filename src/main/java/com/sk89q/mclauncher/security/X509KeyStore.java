@@ -167,7 +167,6 @@ public class X509KeyStore implements X509TrustManager {
      * Check if a client certificate chain is trusted. This is
      * not used in this situation.
      */
-    @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType)
             throws CertificateException {
         throw new UnsupportedOperationException("Client certificates are supported");
@@ -176,7 +175,6 @@ public class X509KeyStore implements X509TrustManager {
     /**
      * Check if a server certificate chain is trusted.
      */
-    @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType)
             throws CertificateException {
         for (X509Certificate cert : chain) {
@@ -199,7 +197,6 @@ public class X509KeyStore implements X509TrustManager {
      * Get a list of accepted issuers for client certificates. This is
      * not used in this situation.
      */
-    @Override
     public X509Certificate[] getAcceptedIssuers() {
         return new X509Certificate[0];
     }

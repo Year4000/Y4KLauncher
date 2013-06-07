@@ -116,7 +116,6 @@ public class AddonManagerDialog extends JDialog {
 
         // Add a listener for changes to the active jar.
         jarCombo.addItemListener(new ItemListener() {
-            @Override
             public void itemStateChanged(ItemEvent e) {
                 Object selected = ((JComboBox) e.getSource()).getSelectedItem();
                 if (selected == null)
@@ -131,7 +130,7 @@ public class AddonManagerDialog extends JDialog {
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            @Override
+            
             public void windowClosing(WindowEvent event) {
                 saveAddonsProfile();
                 Launcher.getInstance().getOptions().save();
@@ -222,7 +221,7 @@ public class AddonManagerDialog extends JDialog {
         File lastFolder = Launcher.getInstance().getOptions().getLastInstallDir(); 
         if (lastFolder != null) chooser.setCurrentDirectory(lastFolder);
         chooser.setFileFilter(new FileFilter() {
-            @Override
+            
             public boolean accept(File pathname) {
                 if (pathname.isDirectory()) return true;
                 String name = pathname.getName();
@@ -235,7 +234,7 @@ public class AddonManagerDialog extends JDialog {
                         ext.equalsIgnoreCase("jar");
             }
 
-            @Override
+            
             public String getDescription() {
                 return "Addon files (.zip; .jar)";
             }
@@ -282,7 +281,6 @@ public class AddonManagerDialog extends JDialog {
 
         menuItem = new JMenuItem("Open Minecraft data folder...");
         menuItem.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 UIUtil.browse(configuration.getMinecraftDir(), self);
             }
@@ -291,7 +289,6 @@ public class AddonManagerDialog extends JDialog {
 
         menuItem = new JMenuItem("Open texture packs folder...");
         menuItem.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 File f = new File(configuration.getMinecraftDir(),
                         "texturepacks");
@@ -349,7 +346,6 @@ public class AddonManagerDialog extends JDialog {
         JButton toolsBtn = new JButton("Tools...");
         panel.add(toolsBtn);
         toolsBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 popupToolsMenu((Component) e.getSource());
             }
@@ -385,7 +381,6 @@ public class AddonManagerDialog extends JDialog {
         JButton installBtn = new JButton("Install...");
         panel.add(installBtn, c);
         installBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 openInstallDialog();
             }
@@ -396,7 +391,6 @@ public class AddonManagerDialog extends JDialog {
                 .setToolTipText("Higher entries are loaded first, so addons that are depended on by others should be near the top.");
         panel.add(moveUpBtn, c);
         moveUpBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if (!checkAddonsProfileLoaded())
                     return;
@@ -415,7 +409,6 @@ public class AddonManagerDialog extends JDialog {
         moveDownBtn.setToolTipText(moveUpBtn.getToolTipText());
         panel.add(moveDownBtn, c);
         moveDownBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if (!checkAddonsProfileLoaded())
                     return;
@@ -433,7 +426,6 @@ public class AddonManagerDialog extends JDialog {
         JButton deleteBtn = new JButton("Uninstall...");
         panel.add(deleteBtn, c);
         deleteBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if (!checkAddonsProfileLoaded())
                     return;
@@ -483,7 +475,6 @@ public class AddonManagerDialog extends JDialog {
         JButton launchBtn = new JButton("Launch...");
         panel.add(launchBtn);
         launchBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 saveAddonsProfile();
                 Launcher.getInstance().getOptions().save();
@@ -497,7 +488,6 @@ public class AddonManagerDialog extends JDialog {
         JButton testBtn = new JButton("Test...");
         panel.add(testBtn);
         testBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 saveAddonsProfile();
                 Launcher.getInstance().getOptions().save();
@@ -515,7 +505,6 @@ public class AddonManagerDialog extends JDialog {
                 pref.height));
         panel.add(okBtn);
         okBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 saveAddonsProfile();
                 Launcher.getInstance().getOptions().save();

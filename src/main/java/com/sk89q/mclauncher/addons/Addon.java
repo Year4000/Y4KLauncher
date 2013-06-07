@@ -82,12 +82,12 @@ public class Addon {
         this.enabled = enabled;
     }
     
-    @Override
+    
     public int hashCode() {
         return file.getName().hashCode();
     }
     
-    @Override
+    
     public boolean equals(Object obj) {
         if (!(obj instanceof Addon)) {
             return false;

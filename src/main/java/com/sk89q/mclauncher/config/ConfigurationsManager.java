@@ -183,22 +183,21 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
     /**
      * Get iterator.
      */
-    @Override
     public Iterator<Configuration> iterator() {
         return configurations.values().iterator();
     }
 
-    @Override
+    
     public int getRowCount() {
         return configurations.size();
     }
 
-    @Override
+    
     public int getColumnCount() {
         return 2;
     }
 
-    @Override
+    
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
         case 0:
@@ -210,7 +209,7 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
         }
     }
 
-    @Override
+    
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
         case 0:
@@ -222,7 +221,7 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
         }
     }
 
-    @Override
+    
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
         case 0:
@@ -234,7 +233,7 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
         }
     }
 
-    @Override
+    
     public Object getValueAt(int rowIndex, int columnIndex) {
         Configuration configuration = configurationsList.get(rowIndex);
         if (configuration == null) {
@@ -250,7 +249,7 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
         }
     }
 
-    @Override
+    
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         Configuration configuration = configurationsList.get(rowIndex);
         if (configuration == null) {
@@ -265,12 +264,12 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
         }
     }
 
-    @Override
+    
     public void addTableModelListener(TableModelListener l) {
         listenerList.add(TableModelListener.class, l);
     }
 
-    @Override
+    
     public void removeTableModelListener(TableModelListener l) {
         listenerList.remove(TableModelListener.class, l);
     }
@@ -278,7 +277,7 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
     private void fireTableChanged(final TableModelEvent event) {
         final Object[] listeners = listenerList.getListenerList();
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
+            
             public void run() {
                 for (int i = listeners.length - 2; i >= 0; i -= 2) {
                     if (listeners[i] == TableModelListener.class) {
@@ -292,7 +291,7 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
     private void fireListChanged(final ListDataEvent event) {
         final Object[] listeners = listenerList.getListenerList();
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
+            
             public void run() {
                 for (int i = listeners.length - 2; i >= 0; i -= 2) {
                     if (listeners[i] == ListDataListener.class) {
@@ -303,22 +302,22 @@ public class ConfigurationsManager implements Iterable<Configuration>, TableMode
         });
     }
 
-    @Override
+    
     public int getSize() {
         return configurations.size();
     }
 
-    @Override
+    
     public Object getElementAt(int index) {
         return configurationsList.get(index);
     }
 
-    @Override
+    
     public void addListDataListener(ListDataListener l) {
         listenerList.add(ListDataListener.class, l);
     }
 
-    @Override
+    
     public void removeListDataListener(ListDataListener l) {
         listenerList.remove(ListDataListener.class, l);
     }

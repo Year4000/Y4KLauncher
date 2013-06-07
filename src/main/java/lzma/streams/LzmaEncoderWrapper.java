@@ -43,7 +43,6 @@ public class LzmaEncoderWrapper implements Coder {
         this.encoder = encoder;
     }
 
-    @Override
     public void code(final InputStream in, final OutputStream out)
             throws IOException {
         encoder.writeCoderProperties(out);

@@ -29,7 +29,7 @@ public class MinecraftJar {
         return (version == null) ? (version = Util.getMCVersion(file)) : version;
     }
 
-    @Override
+    
     public String toString() {
         return file.getName() + " (" + getVersion() + ")";
     }

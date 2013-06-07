@@ -144,7 +144,6 @@ public class LauncherFrame extends JFrame {
 
         // Focus initial item
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 if (getInputUsername().length() > 0
                         && getInputPassword().length() > 0) {
@@ -340,7 +339,6 @@ public class LauncherFrame extends JFrame {
         newsView.setEditable(false);
         newsView.setBorder(BorderFactory.createEmptyBorder());
         newsView.addHyperlinkListener(new HyperlinkListener() {
-            @Override
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     UIUtil.openURL(e.getURL(), self);
@@ -382,7 +380,6 @@ public class LauncherFrame extends JFrame {
                 final JButton showNews = new JButton("Show news");
                 showNews.setAlignmentX(Component.CENTER_ALIGNMENT);
                 showNews.addActionListener(new ActionListener() {
-                    @Override
                     public void actionPerformed(ActionEvent e) {
                         showNews.setVisible(false);
                         showNews(newsPanel);
@@ -449,19 +446,18 @@ public class LauncherFrame extends JFrame {
 
         // Add listener
         playBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 launch();
             }
         });
 
         playBtn.addMouseListener(new MouseAdapter() {
-            @Override
+
             public void mousePressed(MouseEvent e) {
                 maybeShowPopup(e);
             }
 
-            @Override
+
             public void mouseReleased(MouseEvent e) {
                 maybeShowPopup(e);
             }
@@ -474,21 +470,21 @@ public class LauncherFrame extends JFrame {
         });
         
         configurationList.addListSelectionListener(new ListSelectionListener() {
-            @Override
+
             public void valueChanged(ListSelectionEvent e) {
                 setConfiguration((Configuration) ((JList) e.getSource()).getSelectedValue());
             }
         });
 
         optionsBtn.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(ActionEvent e) {
                 openOptions();
             }
         });
 
         addonsBtn.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(ActionEvent e) {
                 openAddons();
             }
@@ -567,7 +563,6 @@ public class LauncherFrame extends JFrame {
         playOfflineCheck.setForeground(fgColor);
         playOfflineCheck.setFont(new Font("Arial", Font.BOLD, 12));
         playOfflineCheck.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 boolean selected = ((JCheckBox) e.getSource()).isSelected();
                 passText.setEnabled(!selected);
@@ -609,7 +604,6 @@ public class LauncherFrame extends JFrame {
         showConsoleCheck.setVisible(true);
         
         userText.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 loadSavedPassword();
             }
@@ -617,7 +611,7 @@ public class LauncherFrame extends JFrame {
 
         userText.getEditor().getEditorComponent()
                 .addKeyListener(new KeyAdapter() {
-                    @Override
+                    
                     public void keyReleased(KeyEvent e) {
                         Object text = userText.getSelectedItem();
                         if (text == null)
@@ -635,12 +629,12 @@ public class LauncherFrame extends JFrame {
 
         userText.getEditor().getEditorComponent()
                 .addMouseListener(new MouseAdapter() {
-                    @Override
+                    
                     public void mousePressed(MouseEvent e) {
                         maybeShowPopup(e);
                     }
 
-                    @Override
+                    
                     public void mouseReleased(MouseEvent e) {
                         maybeShowPopup(e);
                     }
@@ -654,7 +648,7 @@ public class LauncherFrame extends JFrame {
                 });
 
         passText.addKeyListener(new KeyAdapter() {
-            @Override
+            
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     launch();
@@ -687,7 +681,6 @@ public class LauncherFrame extends JFrame {
             menuItem = new JMenuItem("Forget '" + username
                     + "' and its password");
             menuItem.addActionListener(new ActionListener() {
-                @Override
                 public void actionPerformed(ActionEvent e) {
                     options.forgetIdentity(username);
                     if (username.equals(options.getLastUsername())) {
@@ -702,7 +695,6 @@ public class LauncherFrame extends JFrame {
 
         menuItem = new JMenuItem("Forget all saved passwords...");
         menuItem.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane
                         .showConfirmDialog(
@@ -737,7 +729,6 @@ public class LauncherFrame extends JFrame {
         for (final String name : names) {
             menuItem = new JMenuItem("Connect to " + name);
             menuItem.addActionListener(new ActionListener() {
-                @Override
                 public void actionPerformed(ActionEvent e) {
                     launch(servers.get(name));
                 }

@@ -201,7 +201,6 @@ public class Util {
     public static void consumeBlindly(InputStream from) {
         final InputStream in = from;
         Thread thread = new Thread(new Runnable() {
-            @Override
             public void run() {
                 byte[] buffer = new byte[1024];
                 try {

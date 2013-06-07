@@ -52,17 +52,17 @@ public class LinkButton extends JButton {
         setRequestFocusEnabled(false); 
         setContentAreaFilled(false);
         addMouseListener(new MouseAdapter() {
-            @Override
+            
             public void mouseEntered(MouseEvent e) {
                 ((JComponent) e.getComponent()).setBorder(HOVER_BORDER);
             }
 
-            @Override
+            
             public void mouseReleased(MouseEvent e) {
                 ((JComponent) e.getComponent()).setBorder(LINK_BORDER);
             }
 
-            @Override
+            
             public void mouseExited(MouseEvent e) {
                 ((JComponent) e.getComponent()).setBorder(LINK_BORDER);
             }

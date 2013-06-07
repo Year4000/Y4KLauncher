@@ -30,26 +30,26 @@ public class NewsLayoutManager implements LayoutManager {
 
     private static final int PROGRESS_WIDTH = 100;
     
-    @Override
+
     public void addLayoutComponent(String name, Component comp) {
     }
 
-    @Override
+
     public void removeLayoutComponent(Component comp) {
         throw new UnsupportedOperationException("Can't remove things!");
     }
 
-    @Override
+
     public Dimension preferredLayoutSize(Container parent) {
         return new Dimension(0, 0);
     }
 
-    @Override
+
     public Dimension minimumLayoutSize(Container parent) {
         return new Dimension(0, 0);
     }
 
-    @Override
+
     public void layoutContainer(Container parent) {
         Insets insets = parent.getInsets();
         int maxWidth = parent.getWidth() - (insets.left + insets.right);

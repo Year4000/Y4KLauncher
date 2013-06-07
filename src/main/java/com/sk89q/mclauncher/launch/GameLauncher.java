@@ -168,7 +168,6 @@ public class GameLauncher  {
         logger.info("Now launching...");
         
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 try {
                     LoaderCompat loaderCompat = new LoaderCompat(self);
@@ -197,7 +196,7 @@ public class GameLauncher  {
         }
         
         rootLogger.addHandler(new Handler() {
-            @Override
+            
             public void publish(LogRecord record) {
                 Level level = record.getLevel();
                 Throwable t = record.getThrown();
@@ -217,11 +216,11 @@ public class GameLauncher  {
                 out.flush();
             }
             
-            @Override
+            
             public void flush() {
             }
             
-            @Override
+            
             public void close() throws SecurityException {
             }
         });
@@ -230,7 +229,6 @@ public class GameLauncher  {
     private static void setLookAndFeel() throws InterruptedException, InvocationTargetException {
         // Set look and fill
         SwingUtilities.invokeAndWait(new Runnable() {
-            @Override
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager
@@ -300,7 +298,6 @@ public class GameLauncher  {
         } catch (final LaunchException t) {
             logger.severe(t.getMessage());
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
                 public void run() {
                     UIUtil.showError(null, "Minecraft launch error", "An error occurred while launching: " +
                             t.getMessage());
@@ -309,7 +306,6 @@ public class GameLauncher  {
         } catch (final Throwable t) {
             logger.log(Level.SEVERE, "Failed to start Minecraft", t);
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
                 public void run() {
                     UIUtil.showError(null, "Minecraft launch error", "An error occurred while launching: " +
                             t.getMessage() + "\n\n" + Util.getStackTrace(t));

@@ -35,7 +35,7 @@ public class AddonsProfileLoaderTask extends Task {
         this.dialog = dialog;
     }
 
-    @Override
+    
     protected void execute() throws ExecutionException {
         fireTitleChange("Reading addons profile...");
         fireStatusChange("Reading addons profile...");
@@ -49,7 +49,6 @@ public class AddonsProfileLoaderTask extends Task {
         
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
-                @Override
                 public void run() {
                     dialog.setAddonsProfile(addonsProfile);
                 }
@@ -59,7 +58,7 @@ public class AddonsProfileLoaderTask extends Task {
         }
     }
 
-    @Override
+    
     public Boolean cancel() {
         return null;
     }

@@ -113,7 +113,7 @@ public class ConsoleFrame extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            @Override
+            
             public void windowClosing(WindowEvent event) {
                 if (trackProc != null && killProcess) {
                     trackProc.destroy();
@@ -258,7 +258,6 @@ public class ConsoleFrame extends JFrame {
         final InputStream in = from;
         final PrintWriter out = new PrintWriter(outputStream, true);
         Thread thread = new Thread(new Runnable() {
-            @Override
             public void run() {
                 byte[] buffer = new byte[1024];
                 try {
@@ -288,7 +287,6 @@ public class ConsoleFrame extends JFrame {
     private void track(Process process) {
         final PrintWriter out = new PrintWriter(getOutputStream(Color.MAGENTA), true);
         Thread thread = new Thread(new Runnable() {
-            @Override
             public void run() {
                 try {
                     int code = trackProc.waitFor();
@@ -324,7 +322,7 @@ public class ConsoleFrame extends JFrame {
             this.attributes = attributes;
         }
         
-        @Override
+        
         public void flush() {
             String data = toString();
             if (data.length() == 0) return;
@@ -337,7 +335,7 @@ public class ConsoleFrame extends JFrame {
      * Used to send logger messages to the console.
      */
     private class ConsoleLoggerHandler extends Handler {
-        @Override
+        
         public void publish(LogRecord record) {
             Level level = record.getLevel();
             Throwable t = record.getThrown();
@@ -355,11 +353,11 @@ public class ConsoleFrame extends JFrame {
             }
         }
 
-        @Override
+        
         public void flush() {
         }
 
-        @Override
+        
         public void close() throws SecurityException {
         }
     }

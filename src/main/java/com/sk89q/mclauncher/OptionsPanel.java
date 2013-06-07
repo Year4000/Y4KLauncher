@@ -122,7 +122,6 @@ public abstract class OptionsPanel extends JPanel {
         
         menuItem = new JMenuItem("Reset to default"); 
         menuItem.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 copySettingToField(field, new SettingsList(settings.getParents()));
             }
@@ -257,12 +256,12 @@ public abstract class OptionsPanel extends JPanel {
         
         if (!withUse) {
             component.addMouseListener(new MouseAdapter() {
-                @Override
+                
                 public void mousePressed(MouseEvent e) {
                     maybeShowPopup(e);
                 }
     
-                @Override
+                
                 public void mouseReleased(MouseEvent e) {
                     maybeShowPopup(e);
                 }
@@ -317,7 +316,6 @@ public abstract class OptionsPanel extends JPanel {
         check.setBorder(null);
         check.setOpaque(false);
         check.addChangeListener(new ChangeListener() {
-            @Override
             public void stateChanged(ChangeEvent e) {
                 component.setEnabled(check.isSelected());
             }

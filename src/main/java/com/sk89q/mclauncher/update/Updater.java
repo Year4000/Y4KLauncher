@@ -525,7 +525,6 @@ public class Updater implements DownloadListener {
     /**
      * Called whenever a HTTP download connection is created.
      */
-    @Override
     public void connectionStarted(EventObject event) {
         fireDownloadStatusChange("Connected.");
     }
@@ -533,14 +532,12 @@ public class Updater implements DownloadListener {
     /**
      * Called with the length is known in an HTTP download.
      */
-    @Override
     public void lengthKnown(EventObject event) {
     }
 
     /**
      * Called when download progress is made.
      */
-    @Override
     public void downloadProgress(DownloadProgressEvent event) {
         long total = ((Downloader) event.getSource()).getTotalLength();
         PackageFile download = fileList.get(currentIndex);
@@ -561,7 +558,6 @@ public class Updater implements DownloadListener {
     /**
      * Called when a download completes.
      */
-    @Override
     public void downloadCompleted(EventObject event) {
         PackageFile download = fileList.get(currentIndex);
         

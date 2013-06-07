@@ -59,14 +59,12 @@ public class FileStreamFilters {
     
     static {
         register("lzma", new StreamFilter() {
-            @Override
             public InputStream filter(InputStream stream) throws IOException {
                 return new LzmaInputStream(stream, new Decoder());
             }
         });
 
         register("gz", new StreamFilter() {
-            @Override
             public InputStream filter(InputStream stream) throws IOException {
                 return new GZIPInputStream(stream);
             }

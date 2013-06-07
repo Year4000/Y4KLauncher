@@ -20,7 +20,7 @@ package com.sk89q.mclauncher;
 
 public class DefaultVersion {
 
-    @Override
+    
     public String toString() {
         return "<default>";
     }

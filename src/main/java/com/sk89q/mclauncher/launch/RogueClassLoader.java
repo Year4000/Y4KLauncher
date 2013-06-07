@@ -77,7 +77,7 @@ public class RogueClassLoader extends URLClassLoader {
         }
     }
 
-    @Override
+    
     protected Class<?> findClass(final String name)
             throws ClassNotFoundException {
         String path = name.replace('.', '/').concat(".class");

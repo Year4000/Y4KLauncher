@@ -408,17 +408,17 @@ public class AddonsProfile implements TableModel {
         return addons.get(i);
     }
 
-    @Override
+    
     public int getRowCount() {
         return addons.size();
     }
 
-    @Override
+    
     public int getColumnCount() {
         return 3;
     }
 
-    @Override
+    
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
         case 0:
@@ -432,7 +432,7 @@ public class AddonsProfile implements TableModel {
         }
     }
 
-    @Override
+    
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
         case 0:
@@ -446,7 +446,7 @@ public class AddonsProfile implements TableModel {
         }
     }
 
-    @Override
+    
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
         case 0:
@@ -460,7 +460,7 @@ public class AddonsProfile implements TableModel {
         }
     }
 
-    @Override
+    
     public Object getValueAt(int rowIndex, int columnIndex) {
         Addon addon = addons.get(rowIndex);
         if (addon == null) {
@@ -478,7 +478,7 @@ public class AddonsProfile implements TableModel {
         }
     }
 
-    @Override
+    
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         Addon addon = addons.get(rowIndex);
         if (addon == null) {
@@ -497,12 +497,12 @@ public class AddonsProfile implements TableModel {
         }
     }
 
-    @Override
+    
     public void addTableModelListener(TableModelListener l) {
         listenerList.add(TableModelListener.class, l);
     }
 
-    @Override
+    
     public void removeTableModelListener(TableModelListener l) {
         listenerList.remove(TableModelListener.class, l);
     }
@@ -510,7 +510,7 @@ public class AddonsProfile implements TableModel {
     private void fireTableChanged(final TableModelEvent event) {
         final Object[] listeners = listenerList.getListenerList();
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
+            
             public void run() {
                 for (int i = listeners.length - 2; i >= 0; i -= 2) {
                     ((TableModelListener) listeners[i + 1]).tableChanged(event);

@@ -64,7 +64,7 @@ class GameFrame extends JFrame {
         setLocationRelativeTo(null);
 
         addWindowListener(new WindowAdapter() {
-            @Override
+            
             public void windowClosing(WindowEvent arg0) {
                 if (applet != null) {
                     applet.stop();

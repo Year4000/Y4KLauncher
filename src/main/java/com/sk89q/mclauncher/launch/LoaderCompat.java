@@ -85,7 +85,7 @@ public class LoaderCompat {
             this.orig = out;
         }
 
-        @Override
+        
         public void flush() {
             String message = toString();
             orig.print(message);

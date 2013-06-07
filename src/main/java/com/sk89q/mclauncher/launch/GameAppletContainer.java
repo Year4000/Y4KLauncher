@@ -45,7 +45,7 @@ class GameAppletContainer extends Applet implements AppletStub {
         setLayout(new BorderLayout());
     }
     
-    @Override
+    
     public void start() {
         logger.info("Starting " + applet.getClass().getCanonicalName());
         applet.setStub(this);
@@ -60,7 +60,7 @@ class GameAppletContainer extends Applet implements AppletStub {
         logger.info("Cave Johnson, we're done here.");
     }
 
-    @Override
+    
     public boolean isActive() {
         if (this.context == 0) {
             this.context = -1;
@@ -75,7 +75,7 @@ class GameAppletContainer extends Applet implements AppletStub {
         return super.isActive();
     }
 
-    @Override
+    
     public URL getDocumentBase() {
         try {
             return new URL("http://www.minecraft.net/game/");
@@ -84,7 +84,7 @@ class GameAppletContainer extends Applet implements AppletStub {
         }
     }
 
-    @Override
+    
     public String getParameter(String name) {
         String custom = (String) parameters.get(name);
         if (custom != null)
@@ -114,7 +114,6 @@ class GameAppletContainer extends Applet implements AppletStub {
         this.start();
    }
 
-    @Override
     public void appletResize(int width, int height) {
     }
 
