@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>2</version>
+  <version>3</version>
   <name>Y4Klauncher</name>
   <description>Minecraft launcher for Year4000</description>
   <url>http://www.year4000.net</url>
