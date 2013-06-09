@@ -1,8 +1,7 @@
-SK's Minecraft Launcher
+Year4000's Launcher
 =======================
 
-SK's Minecraft Launcher is a custom Minecraft launcher with support for easy
-addon installation and more.
+Year4000's Launcher is a modified version of SK's Minecraft Launcher.
 
 
 Compiling

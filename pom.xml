@@ -2,35 +2,38 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>2</version>
-  <name>Y4Klauncher</name>
-  <description>Minecraft launcher for Year4000</description>
+  <version>3</version>
+  <name>Year4000's Launcher</name>
+  <description>Year4000's Launcher for Minecraft</description>
   <url>http://www.year4000.net</url>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
   <repositories>
-      <!-- Provides us with Simple NBT -->
-      <repository>
-          <id>spout-repo</id>
-          <url>http://repo.spout.org</url>
-      </repository>
+    <!-- Provides us with Simple NBT -->
+    <repository>
+      <id>spout-repo</id>
+      <url>http://repo.spout.org</url>
+    </repository>
   </repositories>
   
   <dependencies>
-      <dependency>
-          <groupId>org.spout</groupId>
-          <artifactId>simplenbt</artifactId>
-          <version>1.0.4-SNAPSHOT</version>
-      </dependency>
+    <dependency>
+      <groupId>org.spout</groupId>
+      <artifactId>simplenbt</artifactId>
+      <version>1.0.4-SNAPSHOT</version>
+    </dependency>
+  <dependency>
+    <groupId>com.github.jponge</groupId>
+    <artifactId>lzma-java</artifactId>
+    <version>1.2</version>
+  </dependency>
   </dependencies>
   
   <build>
-    <defaultGoal>install</defaultGoal>
     <finalName>Y4KLauncher</finalName>
-    
     <resources>
       <resource>
         <targetPath>resources</targetPath>
@@ -45,7 +48,6 @@
           <include>*.png</include>
         </includes>
       </resource>
-      
       <resource>
         <targetPath>resources</targetPath>
         <filtering>false</filtering>
@@ -55,7 +57,6 @@
         </includes>
       </resource>
     </resources>
-    
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -91,7 +92,7 @@
           <execution>
             <id>sign</id>
             <goals>
-              <!--<goal>sign</goal>--> <!-- Enable this is you wish to sign the final jar -->
+              <!--<goal>sign</goal> --> <!-- Enable this is you wish to sign the final jar -->
             </goals>
           </execution>
         </executions>
@@ -111,50 +112,91 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <arguments>-DsignerKeyStore=${signerKeyStore} -DsignerAlias=${signerAlias} -DsignerPassword=${signerPassword}</arguments>  
+          <arguments>-DsignerKeyStore=${signerKeyStore} -DsignerAlias=${signerAlias} -DsignerPassword=${signerPassword}</arguments>
           <preparationGoals>assembly:assembly</preparationGoals>
           <goals>assembly:assembly</goals>
           <tagNameFormat>release-@{project.version}</tagNameFormat>
         </configuration>
       </plugin>
       <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>2.0</version>
-          <executions>
-              <execution>
-                  <phase>package</phase>
-                  <goals>
-                      <goal>shade</goal>
-                  </goals>
-              </execution>
-          </executions>
-          <configuration>
-              <minimizeJar>true</minimizeJar>
-          </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <minimizeJar>true</minimizeJar>
+        </configuration>
       </plugin>
       <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>osxappbundle-maven-plugin</artifactId>
-          <version>1.0-alpha-2</version>
-          <configuration>
-              <bundleName>${project.build.finalName}</bundleName>
-              <version>${project.version}</version>
-              <internetEnable>true</internetEnable>
-              <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
-              <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
-              <jvmVersion>1.6+</jvmVersion>
-              <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
-              <iconFile>icon.icns</iconFile>
-          </configuration>
-          <executions>
-              <execution>
-                  <phase>package</phase>
-                  <goals>
-                      <goal>bundle</goal>
-                  </goals>
-              </execution>
-          </executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>osxappbundle-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <configuration>
+          <bundleName>${project.build.finalName}</bundleName>
+          <version>${project.version}</version>
+          <internetEnable>true</internetEnable>
+          <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
+          <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
+          <jvmVersion>1.6+</jvmVersion>
+          <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
+          <diskImageFile>${project.build.directory}/${project.build.finalName}.dmg</diskImageFile>
+          <iconFile>icon.icns</iconFile>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>bundle</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+        <artifactId>launch4j-plugin</artifactId>
+        <version>1.5.0.0</version>
+        <executions>
+          <execution>
+            <id>l4j-gui</id>
+            <phase>package</phase>
+            <goals>
+              <goal>launch4j</goal>
+            </goals>
+            <configuration>
+              <headerType>gui</headerType>
+              <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+              <jar>target/${project.build.finalName}.jar</jar>
+              <errTitle>${project.name} Error</errTitle>
+              <classPath>
+                <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
+              </classPath>
+              <icon>${basedir}/icon.ico</icon>
+              <jre>
+                <minVersion>1.6.0</minVersion>
+                <initialHeapSize>32</initialHeapSize>
+                <maxHeapSize>1024</maxHeapSize>
+              </jre>
+              <versionInfo>
+                <fileVersion>${project.version}.0.0.0</fileVersion> <!-- Cannot use ${project.version} -->
+                <txtFileVersion>${project.version}.0.0.0</txtFileVersion>
+                <productVersion>${project.version}.0.0.0</productVersion>
+                <txtProductVersion>${project.version}.0.0.0</txtProductVersion>
+                <fileDescription>${project.name}</fileDescription>
+                <copyright>ewized</copyright>
+                <productName>${project.name}</productName>
+                <internalName>${project.name}</internalName>
+                <originalFilename>${project.build.finalName}.exe</originalFilename>
+              </versionInfo>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

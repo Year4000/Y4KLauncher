@@ -83,8 +83,6 @@ public class LaunchTask extends Task {
     private boolean notInstalled = false;
     private volatile Updater updater;
     private boolean demo = false;
-    private boolean allowOfflineName = false;
-
     private boolean showConsole = false;
     private String autoConnect;
     
@@ -157,7 +155,6 @@ public class LaunchTask extends Task {
      * @param allow address (addr:port, addr) or null
      */
     public void setAllowOfflineName(boolean allow) {
-        this.allowOfflineName = allow;
     }
 
     /**

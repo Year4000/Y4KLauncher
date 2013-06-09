@@ -15,20 +15,20 @@
   <icon>icon.ico</icon>
   <jre>
     <path></path>
-    <minVersion>1.6.0</minVersion>
+    <minVersion>1.7.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
   </jre>
   <versionInfo>
-    <fileVersion>2.0.0.0</fileVersion>
-    <txtFileVersion>Y4KLauncher</txtFileVersion>
-    <fileDescription>Minecraft launcher for Year4000</fileDescription>
-    <copyright>Albert Pham &lt;http://www.sk89q.com&gt;</copyright>
-    <productVersion>2.0.0.0</productVersion>
-    <txtProductVersion>Y4KLauncher</txtProductVersion>
-    <productName>Y4KLauncher</productName>
+    <fileVersion>3</fileVersion>
+    <txtFileVersion>Year4000's Launcher</txtFileVersion>
+    <fileDescription>Year4000's Launcher for minecraft</fileDescription>
+    <copyright>Joshua Rodriguez &lt;http://www.ewized.com&gt;</copyright>
+    <productVersion>3</productVersion>
+    <txtProductVersion>Year4000's Launcher</txtProductVersion>
+    <productName>Year4000's Launcher</productName>
     <companyName></companyName>
-    <internalName>Y4KLauncher</internalName>
+    <internalName>Year4000's Launcher</internalName>
     <originalFilename>Y4KLauncher.exe</originalFilename>
   </versionInfo>
 </launch4jConfig>

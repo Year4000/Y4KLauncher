@@ -295,14 +295,14 @@ public class OptionsDialog extends JDialog {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JLabel label;
-        label = new JLabel("SK's Minecraft Launcher");
+        label = new JLabel("Year4000's Launcher");
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(label);
         label = new JLabel("Version " + Launcher.VERSION);
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(label);
 
-        LinkButton btn = new LinkButton("http://www.sk89q.com");
+        LinkButton btn = new LinkButton("http://www.year4000.net");
         btn.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(btn);
 
@@ -326,7 +326,7 @@ public class OptionsDialog extends JDialog {
 
         btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UIUtil.openURL("http://www.sk89q.com", self);
+                UIUtil.openURL("http://www.year4000.net", self);
             }
         });
         

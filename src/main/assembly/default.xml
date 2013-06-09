@@ -9,8 +9,8 @@
   </formats>
   <files>
     <file>
-      <source>${project.build.directory}/SKMCLauncher.jar</source>
-      <destName>SKMCLauncher.jar</destName>
+      <source>${project.build.directory}/Y4KLauncher.jar</source>
+      <destName>Y4KLauncher.jar</destName>
       <outputDirectory>/</outputDirectory>
       <filtered>false</filtered>
     </file>

@@ -21,8 +21,8 @@ package com.sk89q.mclauncher;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -33,6 +33,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileNotFoundException;
@@ -41,7 +42,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
@@ -65,7 +65,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.border.CompoundBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
@@ -76,7 +75,6 @@ import com.sk89q.mclauncher.config.Configuration;
 import com.sk89q.mclauncher.config.Def;
 import com.sk89q.mclauncher.config.LauncherOptions;
 import com.sk89q.mclauncher.config.ServerHotListManager;
-import com.sk89q.mclauncher.launch.GameLauncher;
 import com.sk89q.mclauncher.util.UIUtil;
 
 /**
@@ -87,49 +85,51 @@ import com.sk89q.mclauncher.util.UIUtil;
 public class LauncherFrame extends JFrame {
 
     private static final long serialVersionUID = 4122023031876609883L;
-    private static final int PAD = 12;
-    private boolean allowOfflineName = true;
-    private JList configurationList;
-    private JComboBox jarCombo;
-    private JComboBox userText;
+    private static final int PAD = 17;
+    private JList<?> configurationList;
+    private JComboBox<Object> jarCombo;
+    private JComboBox<String> userText;
     private JTextField passText;
     private JCheckBox rememberPass;
-    private JCheckBox forceUpdateCheck;
-    private JCheckBox playOfflineCheck;
-    private JCheckBox showConsoleCheck;
     private JCheckBox autoConnectCheck;
     private String autoConnect;
-    private LinkButton expandBtn;
     private JButton playBtn;
+    private JButton optionsBtn;
+    private JPanel buttonsPanel;
     private LauncherOptions options;
     private TaskWorker worker = new TaskWorker();
-    Color bgColor = Color.darkGray;
-    Color fgColor = Color.lightGray;
-    
+    //private Color bgColor = Color.getHSBColor(0, 0, (float) 0.9);
+    private Color bgColor = null;
+    private Color fgColor = Color.DARK_GRAY;
+    private Font font = new Font("Ubuntu", Font.PLAIN, 12);
+    private InputStream image;
 
     /**
      * Construct the launcher.
      */
     public LauncherFrame() {
-        setTitle("Year4000 Custom Launcher");
+        setTitle("Year4000's Launcher");
         setSize(750, 450);
-       
+        setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+        
         try {
-            InputStream in = Launcher.class
-                    .getResourceAsStream("/resources/icon.png");
-            if (in != null) {
-                setIconImage(ImageIO.read(in));
+        	image = Launcher.class.getResourceAsStream("/resources/icon.png");
+            if (image != null) {
+                setIconImage(ImageIO.read(image));
             }
-        } catch (IOException e) {
-        }
-
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
         }
-
+        try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		}
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        try {
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("/resources/Ubuntu-R.ttf")));
+		} catch (Exception e) {
+		}
+        
         options = Launcher.getInstance().getOptions();
 
         buildUI();
@@ -172,7 +172,7 @@ public class LauncherFrame extends JFrame {
             configuration = options.getConfigurations().getDefault();
         }
         
-        ListModel model = configurationList.getModel();
+        ListModel<?> model = configurationList.getModel();
         if (configurationList.getSelectedValue() != configuration) {
             for (int i = 0; i < model.getSize(); i++) {
                 if (model.getElementAt(i) == configuration) {
@@ -283,47 +283,14 @@ public class LauncherFrame extends JFrame {
         }
     }
 
-    /**
-     * Set whether the console should be shown.
-     * 
-     * @param show true to show the console
-     */
-    public void setShowConsole(boolean show) {
-        if (show) {
-            expandBtn.doClick();
-        }
-        showConsoleCheck.setSelected(show);
-    }
-
-    /**
-     * Open the options window.
-     * 
-     * @return dialog
-     */
+    //Open the options window.
     private OptionsDialog openOptions() {
         return openOptions(0);
     }
 
-    /**
-     * Open the options window.
-     * 
-     * @param index
-     *            index of the tab to start at
-     * @return dialog
-     */
+    //Open the options window.
     private OptionsDialog openOptions(int index) {
         OptionsDialog dialog = new OptionsDialog(this, getWorkspace(), options, index);
-        dialog.setVisible(true);
-        return dialog;
-    }
-
-    /**
-     * Open the addons management window.
-     * 
-     * @return dialog
-     */
-    private AddonManagerDialog openAddons() {
-        AddonManagerDialog dialog = new AddonManagerDialog(this, getWorkspace(), getActiveJar());
         dialog.setVisible(true);
         return dialog;
     }
@@ -331,13 +298,14 @@ public class LauncherFrame extends JFrame {
     private void showNews(JLayeredPane newsPanel) {
         final LauncherFrame self = this;
         newsPanel.setLayout(new NewsLayoutManager());
-        newsPanel.setBorder(BorderFactory.createEmptyBorder(PAD, 0, PAD, PAD));
+        newsPanel.setBorder(BorderFactory.createEmptyBorder(PAD, PAD, PAD, 0));
         newsPanel.setBackground(bgColor);
         newsPanel.setForeground(fgColor);
         newsPanel.setOpaque(true);
         JEditorPane newsView = new JEditorPane();
         newsView.setEditable(false);
         newsView.setBorder(BorderFactory.createEmptyBorder());
+        newsView.setFont(font);
         newsView.addHyperlinkListener(new HyperlinkListener() {
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -356,72 +324,33 @@ public class LauncherFrame extends JFrame {
     /**
      * Build the UI.
      */
-    private void buildUI() {
-        final LauncherFrame self = this;
-
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void buildUI() {
         setLayout(new BorderLayout(0, 0));
-        boolean hidenews = options.getSettings().getBool(Def.LAUNCHER_HIDE_NEWS, false);
-        allowOfflineName = options.getSettings().getBool(
-                Def.LAUNCHER_ALLOW_OFFLINE_NAME, true);
-        
-        if (!hidenews) {
-            if (options.getSettings().getBool(Def.LAUNCHER_NO_NEWS, false)) {
-                final JLayeredPane newsPanel = new JLayeredPane();
-                
-                newsPanel.setBorder(new CompoundBorder(BorderFactory
-                		.createEmptyBorder(PAD, 0, PAD, PAD), new CompoundBorder(
-                        BorderFactory.createEtchedBorder(), BorderFactory
-                                .createEmptyBorder(4, 4, 4, 4))));
-                newsPanel.setLayout(new BoxLayout(newsPanel, BoxLayout.Y_AXIS));
-                newsPanel.setBackground(bgColor);
-                newsPanel.setForeground(fgColor);
-                newsPanel.setOpaque(true);
-                
-                final JButton showNews = new JButton("Show news");
-                showNews.setAlignmentX(Component.CENTER_ALIGNMENT);
-                showNews.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        showNews.setVisible(false);
-                        showNews(newsPanel);
-                    }
-                });
-                
-                // Center the button vertically.
-                newsPanel.add(new Box.Filler(new Dimension(0,0), 
-                        new Dimension(0,0), new Dimension(1000,1000)));
-                newsPanel.add(showNews);
-                newsPanel.add(new Box.Filler(new Dimension(0,0), 
-                        new Dimension(0,0), new Dimension(1000,1000)));
-                
-                add(newsPanel, BorderLayout.CENTER);
-            } else {
-                JLayeredPane newsPanel = new JLayeredPane();
-                newsPanel.setBackground(bgColor);
-                newsPanel.setForeground(fgColor);
-                newsPanel.setOpaque(true);
-                showNews(newsPanel);
-                add(newsPanel, BorderLayout.CENTER);
-            }
-        }
+
+        JLayeredPane newsPanel = new JLayeredPane();
+        newsPanel.setBackground(bgColor);
+        newsPanel.setForeground(fgColor);
+        newsPanel.setOpaque(true);
+        showNews(newsPanel);
+        add(newsPanel, BorderLayout.CENTER);
         
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
-        if (!hidenews) {
-            add(leftPanel, BorderLayout.LINE_START);
-        } else {
-            add(leftPanel, BorderLayout.CENTER);
-        }
+        add(leftPanel, BorderLayout.LINE_END);
 
-        JPanel buttonsPanel = new JPanel();
+        buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 3, 0));
         playBtn = new JButton("Play");
-        final JButton optionsBtn = new JButton("Options...");
-        JButton addonsBtn = new JButton("Addons...");
+        optionsBtn = new JButton("Options");
         buttonsPanel.add(playBtn);
-        buttonsPanel.add(addonsBtn);
         buttonsPanel.add(optionsBtn);
         buttonsPanel.setBackground(bgColor);
         buttonsPanel.setForeground(fgColor);
+        playBtn.setFont(font);
+        optionsBtn.setFont(font);
+        playBtn.setForeground(fgColor);
+        optionsBtn.setForeground(fgColor);
 
         JPanel root = new JPanel();
         root.setBorder(BorderFactory.createEmptyBorder(0, PAD, PAD, PAD));
@@ -440,6 +369,8 @@ public class LauncherFrame extends JFrame {
         configurationList = new JList(options.getConfigurations());
         configurationList.setCellRenderer(new ConfigurationCellRenderer());
         configurationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        configurationList.setFont(font);
+        
         JScrollPane configScroll = new JScrollPane(configurationList);
         configurationsPanel.add(configScroll, BorderLayout.CENTER);
         leftPanel.add(configurationsPanel, BorderLayout.CENTER);
@@ -472,7 +403,7 @@ public class LauncherFrame extends JFrame {
         configurationList.addListSelectionListener(new ListSelectionListener() {
 
             public void valueChanged(ListSelectionEvent e) {
-                setConfiguration((Configuration) ((JList) e.getSource()).getSelectedValue());
+                setConfiguration((Configuration) ((JList<?>) e.getSource()).getSelectedValue());
             }
         });
 
@@ -482,17 +413,7 @@ public class LauncherFrame extends JFrame {
                 openOptions();
             }
         });
-
-        addonsBtn.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                openAddons();
-            }
-        });
         
-        if (hidenews) {
-            setSize(300, 500);
-        }
     }
 
     /**
@@ -525,11 +446,11 @@ public class LauncherFrame extends JFrame {
         panel.setLayout(layout);
 
         final JLabel jarLabel = new JLabel("Active JAR:", SwingConstants.LEFT);
-        JLabel userLabel = new JLabel("Username:", SwingConstants.LEFT);
-        JLabel passLabel = new JLabel("Password:", SwingConstants.LEFT);
+        JLabel userLabel = new JLabel("Username:", SwingConstants.RIGHT);
+        JLabel passLabel = new JLabel("Password:", SwingConstants.RIGHT);
 
-        jarCombo = new JComboBox();
-        userText = new JComboBox();
+        jarCombo = new JComboBox<Object>();
+        userText = new JComboBox<String>();
         userText.setEditable(true);
         passText = new JPasswordField(20);
         jarLabel.setLabelFor(jarCombo);
@@ -541,67 +462,28 @@ public class LauncherFrame extends JFrame {
 
         rememberPass = new JCheckBox("Remember my password");
         rememberPass.setBorder(null);
-        rememberPass.setBackground(bgColor);
+        rememberPass.setBackground(null);
         rememberPass.setForeground(fgColor);
-        rememberPass.setFont(new Font("Arial", Font.BOLD, 12));
+        rememberPass.setFont(font);
 
         autoConnectCheck = new JCheckBox("Auto-connect");
         autoConnectCheck.setBorder(null);
         autoConnectCheck.setBackground(bgColor);
         autoConnectCheck.setForeground(fgColor);
-        autoConnectCheck.setFont(new Font("Arial", Font.BOLD, 12));
+        autoConnectCheck.setFont(font);
 
-        forceUpdateCheck = new JCheckBox("Force a game update");
-        forceUpdateCheck.setBorder(null);
-        forceUpdateCheck.setBackground(bgColor);
-        forceUpdateCheck.setForeground(fgColor);
-        forceUpdateCheck.setFont(new Font("Arial", Font.BOLD, 12));
-
-        playOfflineCheck = new JCheckBox("Play in offline mode");
-        playOfflineCheck.setBorder(null);
-        playOfflineCheck.setBackground(bgColor);
-        playOfflineCheck.setForeground(fgColor);
-        playOfflineCheck.setFont(new Font("Arial", Font.BOLD, 12));
-        playOfflineCheck.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean selected = ((JCheckBox) e.getSource()).isSelected();
-                passText.setEnabled(!selected);
-                if(selected){
-                	passText.setText("");
-                	rememberPass.setSelected(!selected);
-                }
-                rememberPass.setEnabled(!selected);
-            }
-        });
-
-        showConsoleCheck = new JCheckBox("Launch with console");
-        showConsoleCheck.setBorder(null);
-        showConsoleCheck.setBackground(bgColor);
-        showConsoleCheck.setForeground(fgColor);
-        showConsoleCheck.setFont(new Font("Arial", Font.BOLD, 12));
         userLabel.setForeground(fgColor);
-        userLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        userLabel.setFont(font);
         passLabel.setForeground(fgColor);
-        passLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        passLabel.setFont(font);
 
-        //panel.add(jarLabel, labelC);
-        //panel.add(jarCombo, fieldC);
         panel.add(userLabel, labelC);
         panel.add(userText, fieldC);
         panel.add(passLabel, labelC);
         panel.add(passText, fieldC);
         panel.add(rememberPass, checkboxC);
-        panel.add(autoConnectCheck, checkboxC);
-        panel.add(forceUpdateCheck, checkboxC);
-        panel.add(playOfflineCheck, checkboxC);
-        panel.add(showConsoleCheck, checkboxC);
-
+        panel.add(buttonsPanel);
         autoConnectCheck.setVisible(false);
-        //jarLabel.setVisible(true);
-        //jarCombo.setVisible(true);
-        forceUpdateCheck.setVisible(true);
-        playOfflineCheck.setVisible(true);
-        showConsoleCheck.setVisible(true);
         
         userText.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -659,16 +541,7 @@ public class LauncherFrame extends JFrame {
         return panel;
     }
 
-    /**
-     * Pop the menu that appears when right clicking the username box.
-     * 
-     * @param component
-     *            component to display from
-     * @param x
-     *            top left x
-     * @param y
-     *            top left y
-     */
+
     private void popupIdentityMenu(Component component, int x, int y) {
         final LauncherFrame self = this;
 
@@ -765,7 +638,7 @@ public class LauncherFrame extends JFrame {
         String lastJar = getWorkspace().getLastActiveJar();
         if (lastJar != null) {
             // TODO: This is a horrible hack
-            ComboBoxModel model = jarCombo.getModel();
+            ComboBoxModel<Object> model = jarCombo.getModel();
             for (int i = 0; i < model.getSize(); i++) {
                 Object item = model.getElementAt(i);
                 if (item instanceof MinecraftJar && ((MinecraftJar) item).getName().equals(lastJar)) {
@@ -849,7 +722,7 @@ public class LauncherFrame extends JFrame {
             return;
         }
 
-        if (!playOfflineCheck.isSelected() && passText.getText().trim().length() == 0) {
+        if (passText.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "A password must be entered.",
                     "No password", JOptionPane.ERROR_MESSAGE);
             return;
@@ -862,7 +735,7 @@ public class LauncherFrame extends JFrame {
                 .getSelectedItem()).getName() : null;
 
         // Save the identity
-        if (!playOfflineCheck.isSelected()) {
+
             if (remember) {
                 options.saveIdentity(username, password);
                 options.setLastUsername(username);
@@ -870,9 +743,7 @@ public class LauncherFrame extends JFrame {
                 options.forgetIdentity(username);
                 options.setLastUsername(username);
             }
-        } else{
-        	options.setLastUsername(username);
-        }
+
         options.setLastConfigName(getWorkspace().getId());
         options.save();
 
@@ -883,9 +754,9 @@ public class LauncherFrame extends JFrame {
         // Want to update the GUI
         populateIdentities();
         LaunchTask task = new LaunchTask(this, getWorkspace(), username, password, jar);
-        task.setForceUpdate(forceUpdateCheck.isSelected());
-        task.setPlayOffline(playOfflineCheck.isSelected() || (test && options.getSettings().getBool(Def.FAST_TEST, false)));
-        task.setShowConsole(showConsoleCheck.isSelected());
+        task.setForceUpdate(options.getSettings().getBool(Def.LAUNCHER_GAMEUPDATE, false));
+        task.setPlayOffline(options.getSettings().getBool(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false));
+        task.setShowConsole(options.getSettings().getBool(Def.LAUNCHER_LAUNCH_CONSOLE, false));
         if (autoConnect != null) {
             task.setAutoConnect(autoConnect);
         } else if (autoConnectCheck.isSelected() && this.autoConnect != null) {

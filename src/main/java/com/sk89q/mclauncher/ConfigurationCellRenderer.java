@@ -5,8 +5,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,23 +20,25 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import com.sk89q.mclauncher.config.Configuration;
 
-public class ConfigurationCellRenderer implements ListCellRenderer {
+public class ConfigurationCellRenderer implements ListCellRenderer<Object> {
     
     private static final int PAD = 5;
     private static BufferedImage defaultIcon;
+    private Font font = new Font("Ubuntu", Font.PLAIN, 12);
     
     static {
         try {
-            InputStream in = Launcher.class
-                    .getResourceAsStream("/resources/config_icon.png");
+            InputStream in = Launcher.class.getResourceAsStream("/resources/config_icon.png");
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("/resources/Ubuntu-R.ttf")));
             if (in != null) {
                 defaultIcon = ImageIO.read(in);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
     }
 
-    public Component getListCellRendererComponent(final JList list, final Object value,
+    public Component getListCellRendererComponent(final JList<?> list, final Object value,
             int index, final boolean isSelected, boolean cellHasFocus) {
         final Configuration configuration = (Configuration) value;
         
@@ -46,9 +50,9 @@ public class ConfigurationCellRenderer implements ListCellRenderer {
         JLabel titleLabel = new JLabel();
         titleLabel.setText(configuration.getName());
         titleLabel.setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
-        Font font = titleLabel.getFont();
-        font = font.deriveFont((float) (font.getSize() * 1.3)).deriveFont(Font.BOLD);
-        titleLabel.setFont(font);
+        Font fontTemp = titleLabel.getFont();
+        fontTemp = fontTemp.deriveFont((float) (font.getSize() * 1.2)).deriveFont(Font.BOLD);
+        titleLabel.setFont(fontTemp);
         panel.add(titleLabel);
         
         String infoText;
@@ -62,6 +66,7 @@ public class ConfigurationCellRenderer implements ListCellRenderer {
         
         JLabel infoLabel = new JLabel();
         infoLabel.setText(infoText);
+        infoLabel.setFont(font);
         Color color = isSelected ? list.getSelectionForeground() : list.getForeground();
         infoLabel.setForeground(color);
         panel.add(infoLabel);

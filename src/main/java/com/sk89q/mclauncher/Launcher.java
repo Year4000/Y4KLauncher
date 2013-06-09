@@ -293,7 +293,7 @@ public class Launcher {
         switch (getPlatform()) {
             case LINUX:
             case SOLARIS:
-                workingDir = new File(homeDir, ".skmclauncher");
+                workingDir = new File(homeDir, "Y4KLauncher");
                 break;
             case WINDOWS:
                 String applicationData = System.getenv("APPDATA");
@@ -511,6 +511,7 @@ public class Launcher {
             public void run() {
                 LauncherFrame frame = new LauncherFrame();
                 frame.setVisible(true);
+                //frame.setIconImage(image);
             }
         });
     }

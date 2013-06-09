@@ -1,8 +1,8 @@
-Y4KLauncher (c) 2013 - modify by ewized <http://www.ewized.com>
+Year4000's Launcher (c) 2013 - modify by ewized <http://www.ewized.com>
 
 The original version of this launcher was made by Albert Pham <http://www.sk89q.com> 
 
-This launcher includes code from Julien Ponge to process LZMA compressed files, licensed under the Apache License, version 2.0. <http://julien.ponge.info/> 
+This launcher includes code from Julien Ponge to process LZMA compressed files, licensed under the Apache License, version 2.0. <http://julien.ponge.info> 
 
 This launcher includes code from the LZMA SDK by Igor Pavlov, released to the public domain. <http://www.7-zip.org/sdk.html> 
 
