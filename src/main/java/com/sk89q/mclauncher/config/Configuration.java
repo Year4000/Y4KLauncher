@@ -36,7 +36,6 @@ import javax.imageio.ImageIO;
 
 import com.sk89q.mclauncher.Launcher;
 import com.sk89q.mclauncher.MinecraftJar;
-import com.sk89q.mclauncher.addons.AddonsProfile;
 import com.sk89q.mclauncher.util.SettingsList;
 
 import org.spout.nbt.CompoundMap;
@@ -319,16 +318,6 @@ public class Configuration {
             }
         }
         return jars;
-    }
-
-    /**
-     * Get the addons profile.
-     * 
-     * @param activeJar jar
-     * @return addons profile
-     */
-    public AddonsProfile getAddonsProfile(String activeJar) {
-        return new AddonsProfile(new File(getMinecraftDir(), "addons/" + activeJar));
     }
 
     /**

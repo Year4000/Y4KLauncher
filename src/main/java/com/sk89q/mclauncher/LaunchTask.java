@@ -41,8 +41,6 @@ import javax.swing.SwingUtilities;
 
 import com.sk89q.mclauncher.LoginSession.LoginException;
 import com.sk89q.mclauncher.LoginSession.OutdatedLauncherException;
-import com.sk89q.mclauncher.addons.Addon;
-import com.sk89q.mclauncher.addons.AddonsProfile;
 import com.sk89q.mclauncher.config.Configuration;
 import com.sk89q.mclauncher.config.Constants;
 import com.sk89q.mclauncher.config.Def;
@@ -241,17 +239,7 @@ public class LaunchTask extends Task {
         if (!new File(configuration.getMinecraftDir(), "bin/" + actualJar).exists()) {
             throw new ExecutionException("The game is not installed.");
         }
-        
-        // Get addons
-        List<Addon> addons;
-        try {
-            AddonsProfile addonsProfile = configuration.getAddonsProfile(actualJar);
-            addonsProfile.read();
-            addons = addonsProfile.getEnabledAddons();
-        } catch (IOException e) {
-            throw new ExecutionException("Failed to get addons list: " + e.getMessage(), e);
-        }
-        
+             
         ArrayList<String> params = new ArrayList<String>();
         
         // Start with a wrapper
@@ -353,10 +341,6 @@ public class LaunchTask extends Task {
             }
         }
         
-        // Add enabled addons
-        for (Addon addon : addons) {
-            out.println("!" + addon.getFile().getAbsolutePath());
-        }
         
         out.close(); // Here it starts
         
