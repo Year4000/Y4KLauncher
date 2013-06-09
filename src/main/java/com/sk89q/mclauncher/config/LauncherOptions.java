@@ -74,7 +74,6 @@ public class LauncherOptions {
     private String lastConfigName;
     private String lastUsername;
     private File lastInstallDir;
-    private ServerHotListManager serverHotList = new ServerHotListManager();
     private ConfigurationsManager configsManager = new ConfigurationsManager();
     private Map<String, String> identities = new HashMap<String, String>();
     private SettingsList defaultSettings = new SettingsList();
@@ -102,7 +101,6 @@ public class LauncherOptions {
      * Register built-in configurations.
      */
     private void registerBuiltInConfigurations() {
-        Constants.register(serverHotList);
         Constants.register(configsManager);
     }
     
@@ -114,16 +112,7 @@ public class LauncherOptions {
     public ConfigurationsManager getConfigurations() {
         return configsManager;
     }
-    
-    /**
-     * Get the server hot list manager.
-     * 
-     * @return server hot list manager
-     */
-    public ServerHotListManager getServers() {
-        return serverHotList;
-    }
-    
+      
     /**
      * Get a list of saved usernames.
      * 
@@ -254,7 +243,6 @@ public class LauncherOptions {
     public void read() throws IOException {
         identities = new HashMap<String, String>();
         configsManager = new ConfigurationsManager();
-        serverHotList = new ServerHotListManager();
         
         InputStream in = null;
         
@@ -332,16 +320,6 @@ public class LauncherOptions {
                     logger.log(Level.WARNING, "Could not read configuration '" + id + "'", e);
                 }
             }
-            
-            XPathExpression addressExpr = xpath.compile("address");
-            
-            // Read all the <server> elements
-            for (Node node : getNodes(doc, xpath.compile("/launcher/servers/server"))) {
-                String name = getString(node, nameExpr);
-                String address = getString(node, addressExpr);
-                serverHotList.register(name, address, false);
-            }
-
             for (Node node : getNodes(doc, xpath.compile("/launcher/settings"))) {
                 settings.read(node);
             }
@@ -410,16 +388,7 @@ public class LauncherOptions {
                         config.getUpdateUrl().toString() : null);
                 config.getSettings().write(configurationNode.addNode("settings").getNode());
             }
-            
-            SimpleNode serversNode = root.addNode("servers");
-            for (String name : serverHotList.getServerNames()) {
-                if (!serverHotList.isBuiltIn(name)) {
-                    SimpleNode serverNode = serversNode.addNode("server");
-                    serverNode.addNode("name").addValue(name);
-                    serverNode.addNode("address").addValue(serverHotList.get(name));
-                }
-            }
-            
+                       
             SimpleNode settingsNode = root.addNode("settings");
             settings.write(settingsNode.getNode());
             

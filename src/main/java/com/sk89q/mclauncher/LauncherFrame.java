@@ -34,11 +34,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -73,7 +69,6 @@ import javax.swing.text.JTextComponent;
 import com.sk89q.mclauncher.config.Configuration;
 import com.sk89q.mclauncher.config.Def;
 import com.sk89q.mclauncher.config.LauncherOptions;
-import com.sk89q.mclauncher.config.ServerHotListManager;
 import com.sk89q.mclauncher.util.UIUtil;
 
 /**
@@ -176,17 +171,6 @@ public class LauncherFrame extends JFrame {
                 }
             }
         }
-
-
-        try {
-            for (Map.Entry<String, String> entry : configuration.getMPServers().entrySet()) {
-                options.getServers().register(entry.getKey(), entry.getValue(), false);
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -206,33 +190,15 @@ public class LauncherFrame extends JFrame {
         return configuration;
     }
 
-    /**
-     * Get the entered username.
-     * 
-     * @return username
-     */
     public String getInputUsername() {
         Object selectedName = userText.getSelectedItem();
         return selectedName != null ? selectedName.toString() : "";
     }
 
-    /**
-     * Get the entered password.
-     * 
-     * @return password
-     */
     public String getInputPassword() {
         return passText.getText();
     }
 
-    /**
-     * Set a username and password.
-     * 
-     * @param username
-     *            username
-     * @param password
-     *            password, or null to not change the password
-     */
     public void setLogin(String username, String password) {
         ((JTextComponent) userText.getEditor().getEditorComponent())
                 .setText(username);
@@ -340,24 +306,6 @@ public class LauncherFrame extends JFrame {
             }
         });
 
-        playBtn.addMouseListener(new MouseAdapter() {
-
-            public void mousePressed(MouseEvent e) {
-                maybeShowPopup(e);
-            }
-
-
-            public void mouseReleased(MouseEvent e) {
-                maybeShowPopup(e);
-            }
-
-            private void maybeShowPopup(MouseEvent e) {
-                if (e.isPopupTrigger()) {
-                    popupServerHotListMenu(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        });
-        
         configurationList.addListSelectionListener(new ListSelectionListener() {
 
             public void valueChanged(ListSelectionEvent e) {
@@ -534,39 +482,6 @@ public class LauncherFrame extends JFrame {
     }
 
     /**
-     * Open the server hot list menu.
-     * 
-     * @param component
-     *            component to open from
-     */
-    private void popupServerHotListMenu(Component component, int x, int y) {
-        final ServerHotListManager servers = options.getServers();
-        Set<String> names = servers.getServerNames();
-
-        JPopupMenu popup = new JPopupMenu();
-        JMenuItem menuItem;
-
-        for (final String name : names) {
-            menuItem = new JMenuItem("Connect to " + name);
-            menuItem.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    launch(servers.get(name));
-                }
-            });
-            popup.add(menuItem);
-        }
-
-        if (names.size() == 0) {
-            menuItem = new JMenuItem("No servers in the hot list.");
-            menuItem.setEnabled(false);
-            popup.add(menuItem);
-        }
-
-        popup.show(component, x, y);
-    }
-
-
-    /**
      * Update the drop down list of saved user/pass combinations.
      */
     private void populateIdentities() {
@@ -614,21 +529,11 @@ public class LauncherFrame extends JFrame {
 
     /**
      * Launch the game.
-     */
-    public void launch() {
-        launch(null, false);
-    }
-
-    public void launch(String autoConnect) {
-        launch(autoConnect, false);
-    }
-    /**
-     * Launch the game.
      * 
      * @param autoConnect address to try auto-connecting to
      * @param test set test mode
      */
-    public void launch(String autoConnect, boolean test) {
+    public void launch() {
         if (worker.isAlive())
             return;
 

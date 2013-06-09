@@ -86,14 +86,5 @@ public class Constants {
         keyStore.addRootCertificates(Launcher.class
                 .getResourceAsStream("/resources/sk89q.cer"));
     }
-    
-    /**
-     * Register built-in host lists.
-     * 
-     * @param hotListManager host list manager
-     */
-    public static void register(ServerHotListManager hotListManager) {
-    	hotListManager.register("Year4000", "mc.year4000.net", true);
-    }
 
 }
