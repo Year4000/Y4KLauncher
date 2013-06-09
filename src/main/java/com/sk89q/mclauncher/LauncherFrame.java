@@ -89,14 +89,11 @@ public class LauncherFrame extends JFrame {
     private JComboBox<String> userText;
     private JTextField passText;
     private JCheckBox rememberPass;
-    private JCheckBox autoConnectCheck;
-    private String autoConnect;
     private JButton playBtn;
     private JButton optionsBtn;
     private JPanel buttonsPanel;
     private LauncherOptions options;
     private TaskWorker worker = new TaskWorker();
-    //private Color bgColor = Color.getHSBColor(0, 0, (float) 0.9);
     private Color bgColor = null;
     private Color fgColor = Color.DARK_GRAY;
     private Font font = new Font("Ubuntu", Font.PLAIN, 12);
@@ -241,25 +238,6 @@ public class LauncherFrame extends JFrame {
                 .setText(username);
         if (passText != null) {
             passText.setText(password);
-        }
-    }
-
-    /**
-     * Set an address to autoconnect to.
-     * 
-     * @param address
-     *            address of server, in host:port or host format
-     */
-    public void setAutoConnect(String address) {
-        this.autoConnect = address;
-
-        if (address == null) {
-            autoConnectCheck.setSelected(false);
-            autoConnectCheck.setVisible(false);
-        } else {
-            autoConnectCheck.setText("Auto-connect to '" + address + "'");
-            autoConnectCheck.setSelected(true);
-            autoConnectCheck.setVisible(true);
         }
     }
 
@@ -442,12 +420,6 @@ public class LauncherFrame extends JFrame {
         rememberPass.setForeground(fgColor);
         rememberPass.setFont(font);
 
-        autoConnectCheck = new JCheckBox("Auto-connect");
-        autoConnectCheck.setBorder(null);
-        autoConnectCheck.setBackground(bgColor);
-        autoConnectCheck.setForeground(fgColor);
-        autoConnectCheck.setFont(font);
-
         userLabel.setForeground(fgColor);
         userLabel.setFont(font);
         passLabel.setForeground(fgColor);
@@ -459,7 +431,6 @@ public class LauncherFrame extends JFrame {
         panel.add(passText, fieldC);
         panel.add(rememberPass, checkboxC);
         panel.add(buttonsPanel);
-        autoConnectCheck.setVisible(false);
         
         userText.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -680,14 +651,13 @@ public class LauncherFrame extends JFrame {
         boolean remember = rememberPass.isSelected();
 
         // Save the identity
-
-            if (remember) {
-                options.saveIdentity(username, password);
-                options.setLastUsername(username);
-            } else {
-                options.forgetIdentity(username);
-                options.setLastUsername(username);
-            }
+        if (remember) {
+            options.saveIdentity(username, password);
+            options.setLastUsername(username);
+        } else {
+            options.forgetIdentity(username);
+            options.setLastUsername(username);
+        }
 
         options.setLastConfigName(getWorkspace().getId());
         options.save();
@@ -698,11 +668,6 @@ public class LauncherFrame extends JFrame {
         task.setForceUpdate(options.getSettings().getBool(Def.LAUNCHER_GAMEUPDATE, false));
         task.setPlayOffline(options.getSettings().getBool(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false));
         task.setShowConsole(options.getSettings().getBool(Def.LAUNCHER_LAUNCH_CONSOLE, false));
-        if (autoConnect != null) {
-            task.setAutoConnect(autoConnect);
-        } else if (autoConnectCheck.isSelected() && this.autoConnect != null) {
-            task.setAutoConnect(this.autoConnect);
-        }
 
         worker = Task.startWorker(this, task);
     }

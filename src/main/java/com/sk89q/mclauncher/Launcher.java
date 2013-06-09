@@ -477,7 +477,6 @@ public class Launcher {
         parser.addFlagArg("launch");
         
         ArgsContext context = parser.parse(args);
-        final String autoConnect = context.get("address");
         final String username = context.get("username");
         final String password = context.get("password");
         final boolean autoLaunch = context.has("launch");
@@ -491,11 +490,6 @@ public class Launcher {
                 if (username != null) {
                     frame.setLogin(username, password);
                 }
-                
-                if (autoConnect != null && autoConnect.matches("^[A-Za-z0-9\\.]{1,128}(?::[0-9]+)?$")) {
-                    frame.setAutoConnect(autoConnect);
-                }
-                
                 if (autoLaunch) {
                     frame.launch();
                 }
