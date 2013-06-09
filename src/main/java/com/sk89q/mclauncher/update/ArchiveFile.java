@@ -69,8 +69,7 @@ public class ArchiveFile extends PackageFile {
      * Deploy.
      */
     
-    @SuppressWarnings("resource")
-	public void deploy(UninstallLog log) throws IOException {
+    public void deploy(UninstallLog log) throws IOException {
         File parent = getFile().getParentFile();
         
         if (getOriginalFilename().endsWith(".zip") ||

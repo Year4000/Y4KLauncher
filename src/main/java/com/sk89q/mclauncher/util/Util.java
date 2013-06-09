@@ -248,8 +248,7 @@ public class Util {
         Pattern magic = Pattern.compile("(" + prefix + "(\\w|\\.|\\s|\\p{Punct})+(?=\01\00))");
         String version = "Unknown";
         try {
-            @SuppressWarnings("resource")
-			JarFile jar = new JarFile(file);
+            JarFile jar = new JarFile(file);
             ZipEntry entry = jar.getEntry("net/minecraft/client/Minecraft.class");
             if (entry != null) {
                 BufferedReader br = new BufferedReader(new InputStreamReader(jar.getInputStream(entry)));

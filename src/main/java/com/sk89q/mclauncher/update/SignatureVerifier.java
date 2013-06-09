@@ -94,8 +94,7 @@ public class SignatureVerifier {
      * @throws IOException on I/O error
      */
     public void verifyJar(InputStream in) throws IOException {
-        @SuppressWarnings("resource")
-		JarInputStream jarFile = new JarInputStream(in);
+        JarInputStream jarFile = new JarInputStream(in);
         Manifest manifest = jarFile.getManifest();
         if (manifest == null) {
             throw new SecurityException("The given file was not digitally signed");
