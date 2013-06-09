@@ -22,14 +22,21 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
+import com.sk89q.mclauncher.Launcher;
 
 /**
  * UI utility methods.
@@ -149,6 +156,49 @@ public class UIUtil {
                 return font;
         }
         return new Font("Monospace", Font.PLAIN, 11);
+    }
+
+    /**
+     * Try to read an embedded image.
+     * 
+     * @param path path
+     * @return the image
+     */
+    public static BufferedImage readIconImage(String path) {
+        InputStream in = null;
+        try {
+            in = Launcher.class.getResourceAsStream(path);
+            if (in != null) {
+                return ImageIO.read(in);
+            }
+        } catch (IOException e) {
+        } finally {
+            Util.close(in);
+        }
+        return null;
+    }
+
+    /**
+     * Try to set the icon on a frame from an embedded image.
+     * 
+     * @param frame the frame
+     * @param path path
+     */
+    public static void setIconImage(JFrame frame, String path) {
+        BufferedImage image = readIconImage(path);
+        if (image != null) {
+            frame.setIconImage(image);
+        }
+    }
+
+    /**
+     * Try to set the default look and feel.
+     */
+    public static void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
     }
     
 }

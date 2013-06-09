@@ -103,24 +103,11 @@ public class LauncherFrame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        try {
-        	image = Launcher.class.getResourceAsStream("/resources/icon.png");
-            if (image != null) {
-                setIconImage(ImageIO.read(image));
-            }
-        } catch (Exception e) {
-        }
-        try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-		}
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        try {
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("/resources/Ubuntu-R.ttf")));
-		} catch (Exception e) {
-		}
-        
+        UIUtil.setLookAndFeel();
+        UIUtil.setIconImage(this, "/resources/icon.png");
+
         options = Launcher.getInstance().getOptions();
+        //launchOptions = new LaunchOptions(this);
 
         buildUI();
         

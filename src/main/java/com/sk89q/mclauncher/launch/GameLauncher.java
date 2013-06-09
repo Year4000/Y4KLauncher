@@ -24,6 +24,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.RuntimeMXBean;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,7 +43,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.sk89q.mclauncher.Launcher;
-import com.sk89q.mclauncher.LauncherFrame;
 import com.sk89q.mclauncher.util.BasicArgsParser;
 import com.sk89q.mclauncher.util.BasicArgsParser.ArgsContext;
 import com.sk89q.mclauncher.util.UIUtil;
@@ -64,16 +66,38 @@ public class GameLauncher  {
     private Dimension windowDim;
     
     private GameLauncher(File baseDir, String activeJar) {
-        logger.info("Y4KLauncher, v" + Launcher.VERSION);
+        logger.info("SK's Minecraft Launcher, v" + Launcher.VERSION);
+        logJavaInformation();
         
         this.baseDir = baseDir;
         this.actualDir = Launcher.toMinecraftDir(baseDir);
         this.activeJar = activeJar;
     }
     
+    private void logJavaInformation() {
+        logger.info("-------------------------------------------------");
+        RuntimeMXBean runtimeBean = ManagementFactory.getRuntimeMXBean();
+        logger.info("Java arguments: " + runtimeBean.getInputArguments());
+        logger.info("Library path: " + runtimeBean.getLibraryPath());
+        logger.info("-------------------------------------------------");
+        logger.info("Java version: " + System.getProperty("java.version"));
+        logger.info("Java architecture: " + System.getProperty("sun.arch.data.model"));
+        logger.info("JVM: " + runtimeBean.getVmName() + " version " + 
+        runtimeBean.getVmVersion() + " (vendor: "+ runtimeBean.getVmVendor() + ")");
+        MemoryMXBean mem = ManagementFactory.getMemoryMXBean();
+        logger.info(String.format("HEAP initial: %d MB", 
+                mem.getHeapMemoryUsage().getInit() / 1024 / 1024));
+        logger.info(String.format("HEAP maximum: %d MB", 
+                mem.getHeapMemoryUsage().getMax() / 1024 / 1024));
+        logger.info(String.format("NON-HEAP initial: %d MB", 
+                mem.getNonHeapMemoryUsage().getInit() / 1024 / 1024));
+        logger.info(String.format("NON-HEAP maximum: %d MB", 
+                mem.getNonHeapMemoryUsage().getMax() / 1024 / 1024));
+        logger.info("-------------------------------------------------");
+    }
+    
     public void setParameter(String key, String val) {
-    	logger.info("Parameter: " + key + "=" + val);
-        parameters.put(key, val);      	   
+        parameters.put(key, val);
     }
     
     public void addAddonPath(String path) {
@@ -167,26 +191,22 @@ public class GameLauncher  {
         
         logger.info("Now launching...");
         
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    LoaderCompat loaderCompat = new LoaderCompat(self);
-                    loaderCompat.installHooks();
-                    
-                    Class<?> cls = classLoader.loadClass("net.minecraft.client.MinecraftApplet");
-                    Applet game = (Applet) cls.newInstance();
-                    
-                    GameFrame frame = new GameFrame(windowDim);
-                    frame.setVisible(true);
-                    GameAppletContainer container = new GameAppletContainer(parameters, game, loaderCompat);
-                    frame.start(container);
-                } catch (Throwable e) {
-                    logger.log(Level.SEVERE, "Failed to launch", e);
-                    UIUtil.showError(null, "Launch error", "An error occurred while launching: " +
-                            e.getMessage() + "\n\n" + Util.getStackTrace(e));
-                }
-            }
-        });
+        try {
+            LoaderCompat loaderCompat = new LoaderCompat(self);
+            loaderCompat.installHooks();
+            
+            Class<?> cls = classLoader.loadClass("net.minecraft.client.MinecraftApplet");
+            Applet game = (Applet) cls.newInstance();
+            
+            GameFrame frame = new GameFrame(windowDim);
+            frame.setVisible(true);
+            GameAppletContainer container = new GameAppletContainer(parameters, game, loaderCompat);
+            frame.start(container);
+        } catch (Throwable e) {
+            logger.log(Level.SEVERE, "Failed to launch", e);
+            UIUtil.showError(null, "Launch error", "An error occurred while launching: " +
+                    e.getMessage() + "\n\n" + Util.getStackTrace(e));
+        }
     }
     
     private static void redirectLogger() {
@@ -196,7 +216,7 @@ public class GameLauncher  {
         }
         
         rootLogger.addHandler(new Handler() {
-            
+            @Override
             public void publish(LogRecord record) {
                 Level level = record.getLevel();
                 Throwable t = record.getThrown();
@@ -216,11 +236,11 @@ public class GameLauncher  {
                 out.flush();
             }
             
-            
+            @Override
             public void flush() {
             }
             
-            
+            @Override
             public void close() throws SecurityException {
             }
         });
@@ -229,6 +249,7 @@ public class GameLauncher  {
     private static void setLookAndFeel() throws InterruptedException, InvocationTargetException {
         // Set look and fill
         SwingUtilities.invokeAndWait(new Runnable() {
+            @Override
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager
@@ -298,6 +319,7 @@ public class GameLauncher  {
         } catch (final LaunchException t) {
             logger.severe(t.getMessage());
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     UIUtil.showError(null, "Minecraft launch error", "An error occurred while launching: " +
                             t.getMessage());
@@ -306,6 +328,7 @@ public class GameLauncher  {
         } catch (final Throwable t) {
             logger.log(Level.SEVERE, "Failed to start Minecraft", t);
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     UIUtil.showError(null, "Minecraft launch error", "An error occurred while launching: " +
                             t.getMessage() + "\n\n" + Util.getStackTrace(t));

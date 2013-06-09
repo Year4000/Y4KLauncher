@@ -18,9 +18,17 @@
 
 package com.sk89q.mclauncher.util;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
@@ -32,11 +40,16 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -46,27 +59,40 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import com.sk89q.mclauncher.util.PastebinPoster.PasteCallback;
+
 /**
  * Console dialog for showing console messages.
- * 
- * @author sk89q
  */
-public class ConsoleFrame extends JFrame {
+public class ConsoleFrame extends JFrame implements PasteCallback {
 
     private static final long serialVersionUID = -3266712569265372777L;
-    private static final Logger rootLogger = Logger.getLogger("");;
+    private static final Logger rootLogger = Logger.getLogger("");
+    private static final Image trayOkImage;
+    private static final Image trayClosedImage;
+
+    private final ConsoleFrame self = this;
+    private boolean running = true;
     
     private Process trackProc;
     private Handler loggerHandler;
     private JTextComponent textComponent;
+    private JButton killButton;
+    private JButton minimizeButton;
     private Document document;
     private int numLines;
     private boolean colorEnabled = false;
+    private TrayIcon trayIcon;
     private final SimpleAttributeSet defaultAttributes = new SimpleAttributeSet();
     private final SimpleAttributeSet highlightedAttributes;
     private final SimpleAttributeSet errorAttributes;
     private final SimpleAttributeSet infoAttributes;
     private final SimpleAttributeSet debugAttributes;
+    
+    static {
+        trayOkImage = UIUtil.readIconImage("/resources/tray_ok.png");
+        trayClosedImage = UIUtil.readIconImage("/resources/tray_closed.png");
+    }
     
     /**
      * Construct the frame.
@@ -83,15 +109,18 @@ public class ConsoleFrame extends JFrame {
      * 
      * @param numLines number of lines to show at a time
      * @param colorEnabled true to enable a colored console
-     * @param trackProc process to track
+     * @param proc process to track
      * @param killProcess true to kill the process on console close
      */
     public ConsoleFrame(int numLines, boolean colorEnabled,
-            final Process trackProc, final boolean killProcess) {
+            final Process proc, final boolean killProcess) {
         super("Console");
+
+        UIUtil.setIconImage(this, "/resources/icon.png");
+        
         this.numLines = numLines;
         this.colorEnabled = colorEnabled;
-        this.trackProc = trackProc;
+        this.trackProc = proc;
         
         this.highlightedAttributes = new SimpleAttributeSet();
         StyleConstants.setForeground(highlightedAttributes, Color.BLACK);
@@ -105,23 +134,40 @@ public class ConsoleFrame extends JFrame {
         StyleConstants.setForeground(debugAttributes, Color.DARK_GRAY);
         
         setSize(new Dimension(650, 400));
-        buildUI();
+        addComponents();
         
-        if (trackProc != null) {
-            track(trackProc);
+        if (proc != null) {
+            track(proc);
         }
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            
+            @Override
             public void windowClosing(WindowEvent event) {
                 if (trackProc != null && killProcess) {
                     trackProc.destroy();
+                    trackProc = null;
                 }
-                if (loggerHandler != null) {
-                    rootLogger.removeHandler(loggerHandler);
+                if (trackProc == null) {
+                    running = false;
+                    
+                    // Tell threads waiting on us that we're done
+                    synchronized (self) {
+                        self.notifyAll();
+                    }
+                    
+                    if (trayIcon != null) {
+                        SystemTray.getSystemTray().remove(trayIcon);
+                    }
+                    
+                    if (loggerHandler != null) {
+                        rootLogger.removeHandler(loggerHandler);
+                    }
+                    
+                    event.getWindow().dispose();
+                } else {
+                    self.setVisible(false);
                 }
-                event.getWindow().dispose();
             }
         });
     }
@@ -129,7 +175,7 @@ public class ConsoleFrame extends JFrame {
     /**
      * Build the interface.
      */
-    private void buildUI() {
+    private void addComponents() {
         if (colorEnabled) {
             JTextPane text = new JTextPane();
             this.textComponent = text;
@@ -139,7 +185,7 @@ public class ConsoleFrame extends JFrame {
             text.setLineWrap(true);
         }
         
-        textComponent.setFont(UIUtil.getMonospaceFont());
+        textComponent.setFont(new JLabel().getFont());
         textComponent.setEditable(false);
         DefaultCaret caret = (DefaultCaret) textComponent.getCaret();
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
@@ -149,8 +195,95 @@ public class ConsoleFrame extends JFrame {
         JScrollPane scrollText = new JScrollPane(textComponent);
         scrollText.setBorder(null);
         scrollText.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        Box buttonsPanel = Box.createHorizontalBox();
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        JButton pastebinButton = new JButton("Upload Log...");
+        buttonsPanel.add(pastebinButton);
+        buttonsPanel.add(Box.createHorizontalStrut(5));
+        add(buttonsPanel, BorderLayout.NORTH);
+        
+        pastebinButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = getPastableText();
+                log("Uploading paste (" + text.length() + " bytes)...\n", 
+                        highlightedAttributes);
+                PastebinPoster.paste(text, self);
+            }
+        });
+        
+        if (trackProc != null) {
+            killButton = new JButton("Kill Process");
+            minimizeButton = new JButton("Hide Log");
+            UIUtil.equalWidth(killButton, minimizeButton);
+            
+            buttonsPanel.add(Box.createHorizontalGlue());
+            buttonsPanel.add(killButton);
+            buttonsPanel.add(Box.createHorizontalStrut(5));
+            buttonsPanel.add(minimizeButton);
+            
+            killButton.addActionListener(killProcessListener);
+            
+            minimizeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    self.setVisible(false);
+                }
+            });
+            
+            if (!setupTrayIcon()) {
+                minimizeButton.setEnabled(true);
+            }
+        }
         
         add(scrollText, BorderLayout.CENTER);
+    }
+    
+    private boolean setupTrayIcon() {
+        if (!SystemTray.isSupported() || trayOkImage == null || trayClosedImage == null) {
+            return false;
+        }
+        
+        trayIcon = new TrayIcon(trayOkImage);
+        trayIcon.setImageAutoSize(true);
+        trayIcon.setToolTip("Messages and Errors for SKMCLauncher");
+        
+        trayIcon.addActionListener(reshowWindowListener);
+       
+        PopupMenu popup = new PopupMenu();
+        MenuItem item;
+
+        popup.add(item = new MenuItem("Show messages and errors..."));
+        item.addActionListener(reshowWindowListener);
+       
+        trayIcon.setPopupMenu(popup);
+       
+        try {
+            SystemTray tray = SystemTray.getSystemTray();
+            tray.add(trayIcon);
+            return true;
+        } catch (AWTException e) {
+        }
+        
+        return false;
+    }
+    
+    public String getPastableText() {
+        String text = textComponent.getText().replaceAll("[\r\n]+", "\n");
+        text = text.replaceAll("Session ID is [A-Fa-f0-9]+", "Session ID is [redacted]");
+        return text;
+    }
+
+    @Override
+    public void handleSuccess(String url) {
+        log("Paste uploaded to: " + url + "\n", highlightedAttributes);
+        UIUtil.openURL(url, this);
+    }
+
+    @Override
+    public void handleError(String err) {
+        log("Failed to upload paste: " + err + "\n", errorAttributes);
     }
 
     /**
@@ -258,6 +391,7 @@ public class ConsoleFrame extends JFrame {
         final InputStream in = from;
         final PrintWriter out = new PrintWriter(outputStream, true);
         Thread thread = new Thread(new Runnable() {
+            @Override
             public void run() {
                 byte[] buffer = new byte[1024];
                 try {
@@ -287,13 +421,31 @@ public class ConsoleFrame extends JFrame {
     private void track(Process process) {
         final PrintWriter out = new PrintWriter(getOutputStream(Color.MAGENTA), true);
         Thread thread = new Thread(new Runnable() {
+            @Override
             public void run() {
                 try {
                     int code = trackProc.waitFor();
                     out.println("Process ended with code " + code);
+                    trackProc = null;
                 } catch (InterruptedException e) {
                     out.println("Process tracking interrupted!");
                 }
+                
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (killButton != null) {
+                            killButton.setEnabled(false);
+                        }
+                        if (minimizeButton != null) {
+                            minimizeButton.setEnabled(false);
+                        }
+                        if (trayIcon != null) {
+                            trayIcon.setImage(trayClosedImage);
+                        }
+                        reshowWindowListener.actionPerformed(null);
+                    }
+                });
             }
         });
         thread.setDaemon(true);
@@ -301,7 +453,7 @@ public class ConsoleFrame extends JFrame {
     }
 
     /**
-     * Registera global logger listener.
+     * Register a global logger listener.
      */
     public void registerLoggerHandler() {
         for (Handler handler : rootLogger.getHandlers()) {
@@ -311,6 +463,48 @@ public class ConsoleFrame extends JFrame {
         loggerHandler = new ConsoleLoggerHandler();
         rootLogger.addHandler(loggerHandler);
     }
+
+    /**
+     * Wait until the console is closed.
+     */
+    public void waitFor() {
+        while (running) {
+            try {
+                synchronized (this) {
+                    this.wait();
+                }
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    }
+    
+    private ActionListener killProcessListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (killButton != null) {
+                killButton.setEnabled(false);
+            }
+            
+            if (trackProc != null) {
+                trackProc.destroy();
+                trackProc = null;
+            }
+            
+            if (loggerHandler != null) {
+                rootLogger.removeHandler(loggerHandler);
+                loggerHandler = null;
+            }
+        }
+    };
+    
+    private ActionListener reshowWindowListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            self.setVisible(true);
+            self.requestFocus();
+        }
+    };
     
     /**
      * Used to send console messages to the console.
@@ -322,7 +516,7 @@ public class ConsoleFrame extends JFrame {
             this.attributes = attributes;
         }
         
-        
+        @Override
         public void flush() {
             String data = toString();
             if (data.length() == 0) return;
@@ -335,7 +529,7 @@ public class ConsoleFrame extends JFrame {
      * Used to send logger messages to the console.
      */
     private class ConsoleLoggerHandler extends Handler {
-        
+        @Override
         public void publish(LogRecord record) {
             Level level = record.getLevel();
             Throwable t = record.getThrown();
@@ -353,11 +547,11 @@ public class ConsoleFrame extends JFrame {
             }
         }
 
-        
+        @Override
         public void flush() {
         }
 
-        
+        @Override
         public void close() throws SecurityException {
         }
     }
