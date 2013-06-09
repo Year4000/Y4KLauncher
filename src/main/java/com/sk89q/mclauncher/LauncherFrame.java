@@ -43,7 +43,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -87,7 +86,6 @@ public class LauncherFrame extends JFrame {
     private static final long serialVersionUID = 4122023031876609883L;
     private static final int PAD = 17;
     private JList<?> configurationList;
-    private JComboBox<Object> jarCombo;
     private JComboBox<String> userText;
     private JTextField passText;
     private JCheckBox rememberPass;
@@ -181,9 +179,7 @@ public class LauncherFrame extends JFrame {
                 }
             }
         }
-        
-        populateJarEntries();
-        setLastJar();
+
 
         try {
             for (Map.Entry<String, String> entry : configuration.getMPServers().entrySet()) {
@@ -230,22 +226,6 @@ public class LauncherFrame extends JFrame {
      */
     public String getInputPassword() {
         return passText.getText();
-    }
-
-    /**
-     * Get the currently active JAR.
-     * 
-     * @return active JAR name
-     */
-    public String getActiveJar() {
-        Object o = jarCombo.getSelectedItem();
-        if (o == null) {
-            return "minecraft.jar";
-        }
-        if (o instanceof DefaultVersion) {
-            return "minecraft.jar";
-        }
-        return ((MinecraftJar) o).getName();
     }
 
     /**
@@ -445,18 +425,14 @@ public class LauncherFrame extends JFrame {
         GridBagLayout layout = new GridBagLayout();
         panel.setLayout(layout);
 
-        final JLabel jarLabel = new JLabel("Active JAR:", SwingConstants.LEFT);
         JLabel userLabel = new JLabel("Username:", SwingConstants.RIGHT);
         JLabel passLabel = new JLabel("Password:", SwingConstants.RIGHT);
 
-        jarCombo = new JComboBox<Object>();
         userText = new JComboBox<String>();
         userText.setEditable(true);
         passText = new JPasswordField(20);
-        jarLabel.setLabelFor(jarCombo);
         userLabel.setLabelFor(userText);
         passLabel.setLabelFor(passText);
-        layout.setConstraints(jarCombo, fieldC);
         layout.setConstraints(userText, fieldC);
         layout.setConstraints(passText, fieldC);
 
@@ -618,35 +594,6 @@ public class LauncherFrame extends JFrame {
         popup.show(component, x, y);
     }
 
-    /**
-     * Populate the list of JAR versions to use.
-     */
-    private void populateJarEntries() {
-        jarCombo.removeAllItems();
-
-        jarCombo.addItem(new DefaultVersion());
-
-        for (MinecraftJar jar : getWorkspace().getJars()) {
-            jarCombo.addItem(jar);
-        }
-    }
-
-    /**
-     * Set the JAR field to the last JAR used.
-     */
-    private void setLastJar() {
-        String lastJar = getWorkspace().getLastActiveJar();
-        if (lastJar != null) {
-            // TODO: This is a horrible hack
-            ComboBoxModel<Object> model = jarCombo.getModel();
-            for (int i = 0; i < model.getSize(); i++) {
-                Object item = model.getElementAt(i);
-                if (item instanceof MinecraftJar && ((MinecraftJar) item).getName().equals(lastJar)) {
-                    model.setSelectedItem(item);
-                }
-            }
-        }
-    }
 
     /**
      * Update the drop down list of saved user/pass combinations.
@@ -731,8 +678,6 @@ public class LauncherFrame extends JFrame {
         String username = selectedName.toString();
         String password = passText.getText();
         boolean remember = rememberPass.isSelected();
-        String jar = jarCombo.getSelectedItem() instanceof MinecraftJar ? ((MinecraftJar) jarCombo
-                .getSelectedItem()).getName() : null;
 
         // Save the identity
 
@@ -747,13 +692,9 @@ public class LauncherFrame extends JFrame {
         options.setLastConfigName(getWorkspace().getId());
         options.save();
 
-        // Save options
-        getWorkspace().setLastActiveJar(jar);
-        options.save();
-
         // Want to update the GUI
         populateIdentities();
-        LaunchTask task = new LaunchTask(this, getWorkspace(), username, password, jar);
+        LaunchTask task = new LaunchTask(this, getWorkspace(), username, password);
         task.setForceUpdate(options.getSettings().getBool(Def.LAUNCHER_GAMEUPDATE, false));
         task.setPlayOffline(options.getSettings().getBool(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false));
         task.setShowConsole(options.getSettings().getBool(Def.LAUNCHER_LAUNCH_CONSOLE, false));

@@ -40,7 +40,7 @@ import javax.swing.table.TableModel;
  * 
  * @author sk89q
  */
-public class ConfigurationsManager implements Iterable<Configuration>, TableModel, ListModel  {
+public class ConfigurationsManager implements Iterable<Configuration>, TableModel, ListModel<Object>  {
     
     private Map<String, Configuration> configurations = new HashMap<String, Configuration>();
     private List<Configuration> configurationsList = new ArrayList<Configuration>();

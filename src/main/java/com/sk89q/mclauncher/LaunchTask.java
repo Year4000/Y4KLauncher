@@ -30,7 +30,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +69,6 @@ public class LaunchTask extends Task {
     private JFrame frame;
     private String username;
     private String password;
-    private String activeJar;
     private LoginSession session;
     private Configuration configuration;
     private File rootDir;
@@ -91,15 +89,13 @@ public class LaunchTask extends Task {
      * @param configuration workspace
      * @param username username
      * @param password password
-     * @param jar jar name
      */
     public LaunchTask(JFrame frame, Configuration configuration,
-            String username, String password, String jar) {
+            String username, String password) {
         this.frame = frame;
         this.configuration = configuration;
         this.username = username;
         this.password = password;
-        this.activeJar = jar;
     }
     
     /**
@@ -169,9 +165,9 @@ public class LaunchTask extends Task {
             login();
         }
         
-        notInstalled = (activeJar == null && !(new File(rootDir, "bin/minecraft.jar").exists()));
+        notInstalled = (!(new File(rootDir, "bin/minecraft.jar").exists()));
         
-        if (activeJar == null && !skipUpdateCheck) {
+        if (!skipUpdateCheck) {
             checkForUpdates();
         }
         
@@ -233,7 +229,7 @@ public class LaunchTask extends Task {
         }
         
         // Set some things straight
-        String actualJar = activeJar != null ? activeJar : "minecraft.jar";
+        String actualJar = "minecraft.jar";
         File actualWorkingDirectory = configuration.getBaseDir();
         
         if (!new File(configuration.getMinecraftDir(), "bin/" + actualJar).exists()) {

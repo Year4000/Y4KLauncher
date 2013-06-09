@@ -25,9 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.logging.Logger;
 import java.util.Map;
@@ -35,7 +32,6 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import com.sk89q.mclauncher.Launcher;
-import com.sk89q.mclauncher.MinecraftJar;
 import com.sk89q.mclauncher.util.SettingsList;
 
 import org.spout.nbt.CompoundMap;
@@ -58,7 +54,6 @@ public class Configuration {
     private String appDir;
     private String name;
     private URL updateUrl;
-    private String lastActiveJar;
     private SettingsList settings = new SettingsList();
     private boolean builtIn = false;
     private BufferedImage cachedIcon;
@@ -220,24 +215,6 @@ public class Configuration {
     }
 
     /**
-     * Get the last active JAR.
-     * 
-     * @return JAR name or null
-     */
-    public String getLastActiveJar() {
-        return lastActiveJar;
-    }
-
-    /**
-     * Set the last active jar.
-     * 
-     * @param lastActiveJar JAR name or null
-     */
-    public void setLastActiveJar(String lastActiveJar) {
-        this.lastActiveJar = lastActiveJar;
-    }
-
-    /**
      * Get the settings.
      * 
      * @return settings
@@ -294,33 +271,6 @@ public class Configuration {
     }
 
     /**
-     * Get a list of JARs.
-     * 
-     * @return list of jars
-     */
-    public List<MinecraftJar> getJars() {
-        File base = new File(getMinecraftDir(), "bin");
-        List<MinecraftJar> jars = new ArrayList<MinecraftJar>();
-        jars.add(new MinecraftJar(new File(base, "minecraft.jar")));
-        File[] files = base.listFiles();
-        if (files == null) {
-            return jars;
-        }
-        Arrays.sort(files);
-        for (File f : files) {
-            String name = f.getName();
-            
-            if (name.matches("^[^\\/:;]+\\.jar$") && !name.equalsIgnoreCase("jinput.jar")
-                    && !name.equalsIgnoreCase("lwjgl.jar")
-                    && !name.equalsIgnoreCase("lwjgl_util.jar")
-                    && !name.equalsIgnoreCase("minecraft.jar")) {
-                jars.add(new MinecraftJar(f));
-            }
-        }
-        return jars;
-    }
-
-    /**
      * Get the icon for the profile. May return null.
      * 
      * @return icon or null
@@ -354,7 +304,8 @@ public class Configuration {
         Map<String, String> retn = new HashMap<String, String>();
 
         if (file.exists()) {
-            NBTInputStream nbt = new NBTInputStream(new FileInputStream(file), false);
+            @SuppressWarnings("resource")
+			NBTInputStream nbt = new NBTInputStream(new FileInputStream(file), false);
             Tag tag = nbt.readTag();
             ListTag<?> servers = (ListTag<?>) ((CompoundMap) tag.getValue()).get("servers");
 

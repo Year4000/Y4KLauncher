@@ -238,24 +238,6 @@ public class LauncherOptions {
     }
     
     /**
-     * Gets the directory of where addons were last installed from.
-     * 
-     * @return directory, or null if one isn't set
-     */
-    public File getLastInstallDir() {
-        return lastInstallDir;
-    }
-
-    /**
-     * Set the last directory that addons were installed from.
-     * 
-     * @param dir directory
-     */
-    public void setLastInstallDir(File dir) {
-        this.lastInstallDir = dir;
-    }
-
-    /**
      * Get the settings list.
      * 
      * @return settings
@@ -317,7 +299,6 @@ public class LauncherOptions {
             XPathExpression appDirExpr = xpath.compile("appDir/text()");
             XPathExpression basePathExpr = xpath.compile("basePath/text()");
             XPathExpression updateURLExpr = xpath.compile("updateURL/text()");
-            XPathExpression lastJarExpr = xpath.compile("lastJar/text()");
             XPathExpression settingsExpr = xpath.compile("settings");
             
             // Read all the <configuration> elements
@@ -327,7 +308,6 @@ public class LauncherOptions {
                 String appDir = getStringOrNull(node, appDirExpr);
                 String basePath = getStringOrNull(node, basePathExpr);
                 String urlString = getStringOrNull(node, updateURLExpr);
-                String lastJar = getStringOrNull(node, lastJarExpr);
                 
                 try {
                     URL updateUrl = urlString != null ? new URL(urlString) : null;
@@ -344,8 +324,7 @@ public class LauncherOptions {
                         settings.read(settingsNode);
                     }
                     config.setSettings(settings);
-                    
-                    config.setLastActiveJar(lastJar);
+
                     configsManager.register(config);
                 } catch (MalformedURLException e) {
                     logger.log(Level.WARNING, "Could not read configuration '" + id + "', bad URL '" + urlString + "'", e);
@@ -429,7 +408,6 @@ public class LauncherOptions {
                 configurationNode.addNode("basePath").addValue(f != null ? f.getPath() : null);
                 configurationNode.addNode("updateURL").addValue(config.getUpdateUrl() != null ?
                         config.getUpdateUrl().toString() : null);
-                configurationNode.addNode("lastJar").addValue(config.getLastActiveJar());
                 config.getSettings().write(configurationNode.addNode("settings").getNode());
             }
             
