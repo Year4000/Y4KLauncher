@@ -33,7 +33,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.sk89q.mclauncher.Launcher;
-import com.sk89q.mclauncher.config.LauncherOptions;
 
 class GameFrame extends JFrame {
     

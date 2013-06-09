@@ -40,7 +40,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.sk89q.mclauncher.Launcher;
-import com.sk89q.mclauncher.LauncherFrame;
 import com.sk89q.mclauncher.util.BasicArgsParser;
 import com.sk89q.mclauncher.util.BasicArgsParser.ArgsContext;
 import com.sk89q.mclauncher.util.UIUtil;

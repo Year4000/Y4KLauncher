@@ -365,7 +365,8 @@ public class Configuration {
         Map<String, String> retn = new HashMap<String, String>();
 
         if (file.exists()) {
-            NBTInputStream nbt = new NBTInputStream(new FileInputStream(file), false);
+            @SuppressWarnings("resource")
+			NBTInputStream nbt = new NBTInputStream(new FileInputStream(file), false);
             Tag tag = nbt.readTag();
             ListTag<?> servers = (ListTag<?>) ((CompoundMap) tag.getValue()).get("servers");
 
