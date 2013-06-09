@@ -31,10 +31,12 @@ public abstract class AbstractDownloader implements Downloader {
         this.output = output;
     }
 
+    @Override
     public void addDownloadListener(DownloadListener l) {
         listenerList.add(DownloadListener.class, l);
     }
 
+    @Override
     public void removeDownloadListener(DownloadListener l) {
         listenerList.remove(DownloadListener.class, l);
     }
@@ -133,14 +135,17 @@ public abstract class AbstractDownloader implements Downloader {
         return etagCheck;
     }
 
+    @Override
     public void setEtagCheck(String etag) {
         etagCheck = etag;
     }
 
+    @Override
     public void setMessageDigest(MessageDigest digest) {
         this.digest = digest;
     }
 
+    @Override
     public void cancel() {
         running = false;
     }
@@ -151,11 +156,12 @@ public abstract class AbstractDownloader implements Downloader {
     protected class ProgressEventUpdater implements Runnable {
         private volatile boolean running = true;
         
+        @Override
         public void run() {
             while (running) {
                 fireDownloadProgress(getDownloadedLength());
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     break;
                 }
@@ -166,5 +172,4 @@ public abstract class AbstractDownloader implements Downloader {
             running = false;
         }
     }
-
 }
