@@ -90,8 +90,8 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     private final SimpleAttributeSet debugAttributes;
     
     static {
-        trayOkImage = UIUtil.readIconImage("/resources/tray_ok.png");
-        trayClosedImage = UIUtil.readIconImage("/resources/tray_closed.png");
+        trayOkImage = UIUtil.readIconImage("/resources/icon.png");
+        trayClosedImage = UIUtil.readIconImage("/resources/icon.png");
     }
     
     /**
@@ -99,6 +99,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
      * 
      * @param numLines number of lines to show at a time
      * @param colorEnabled true to enable a colored console
+     * @wbp.parser.constructor
      */
     public ConsoleFrame(int numLines, boolean colorEnabled) {
         this(numLines, colorEnabled, null, false);
@@ -201,7 +202,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
         JButton pastebinButton = new JButton("Upload Log...");
         buttonsPanel.add(pastebinButton);
         buttonsPanel.add(Box.createHorizontalStrut(5));
-        add(buttonsPanel, BorderLayout.NORTH);
+        getContentPane().add(buttonsPanel, BorderLayout.NORTH);
         
         pastebinButton.addActionListener(new ActionListener() {
             @Override
@@ -237,7 +238,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
             }
         }
         
-        add(scrollText, BorderLayout.CENTER);
+        getContentPane().add(scrollText, BorderLayout.CENTER);
     }
     
     private boolean setupTrayIcon() {
@@ -247,7 +248,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
         
         trayIcon = new TrayIcon(trayOkImage);
         trayIcon.setImageAutoSize(true);
-        trayIcon.setToolTip("Messages and Errors for SKMCLauncher");
+        trayIcon.setToolTip("Console for Y4K's Launcher");
         
         trayIcon.addActionListener(reshowWindowListener);
        

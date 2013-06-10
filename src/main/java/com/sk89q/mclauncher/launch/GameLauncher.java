@@ -66,7 +66,7 @@ public class GameLauncher  {
     private Dimension windowDim;
     
     private GameLauncher(File baseDir, String activeJar) {
-        logger.info("SK's Minecraft Launcher, v" + Launcher.VERSION);
+        logger.info("Y4K's Launcher, v" + Launcher.VERSION);
         logJavaInformation();
         
         this.baseDir = baseDir;
