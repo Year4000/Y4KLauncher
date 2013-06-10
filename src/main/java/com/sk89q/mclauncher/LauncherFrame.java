@@ -22,7 +22,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -33,10 +32,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -59,7 +55,6 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
@@ -83,7 +78,7 @@ public class LauncherFrame extends JFrame {
     private JList<?> configurationList;
     private JComboBox<String> userText;
     private JTextField passText;
-    private JCheckBox rememberPass;
+    JCheckBox rememberPass;
     private JButton playBtn;
     private JButton optionsBtn;
     private JPanel buttonsPanel;
@@ -91,8 +86,7 @@ public class LauncherFrame extends JFrame {
     private TaskWorker worker = new TaskWorker();
     private Color bgColor = null;
     private Color fgColor = Color.DARK_GRAY;
-    private Font font = new Font("Ubuntu", Font.PLAIN, 12);
-    private InputStream image;
+    private Font font = new Font("Arial", Font.BOLD, 12);
 
     /**
      * Construct the launcher.
@@ -101,13 +95,11 @@ public class LauncherFrame extends JFrame {
         setTitle("Year4000's Launcher");
         setSize(750, 450);
         setResizable(false);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
         UIUtil.setLookAndFeel();
         UIUtil.setIconImage(this, "/resources/icon.png");
 
         options = Launcher.getInstance().getOptions();
-        //launchOptions = new LaunchOptions(this);
 
         buildUI();
         
@@ -532,7 +524,7 @@ public class LauncherFrame extends JFrame {
             return;
         }
 
-        if (passText.getText().trim().length() == 0) {
+        if (passText.getText().trim().length() == 0 && !options.getSettings().getBool(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false)) {
             JOptionPane.showMessageDialog(this, "A password must be entered.",
                     "No password", JOptionPane.ERROR_MESSAGE);
             return;
@@ -543,7 +535,7 @@ public class LauncherFrame extends JFrame {
         boolean remember = rememberPass.isSelected();
 
         // Save the identity
-        if (remember) {
+        if (remember && !options.getSettings().getBool(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false)) {
             options.saveIdentity(username, password);
             options.setLastUsername(username);
         } else {
@@ -560,6 +552,10 @@ public class LauncherFrame extends JFrame {
         task.setForceUpdate(options.getSettings().getBool(Def.LAUNCHER_GAMEUPDATE, false));
         task.setPlayOffline(options.getSettings().getBool(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false));
         task.setShowConsole(options.getSettings().getBool(Def.LAUNCHER_LAUNCH_CONSOLE, false));
+        options.getSettings().set(Def.LAUNCHER_GAMEUPDATE, false);
+        options.getSettings().set(Def.LAUNCHER_ALLOW_OFFLINE_NAME, false);
+        options.getSettings().set(Def.LAUNCHER_LAUNCH_CONSOLE, false);
+        options.save();
 
         worker = Task.startWorker(this, task);
     }

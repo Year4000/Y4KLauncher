@@ -5,13 +5,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -23,19 +19,8 @@ public class ConfigurationCellRenderer implements ListCellRenderer<Object> {
     
     private static final int PAD = 5;
     private static BufferedImage defaultIcon;
-    private Font font = new Font("Ubuntu", Font.PLAIN, 12);
+    private Font font = new Font("Arial", Font.PLAIN, 12);
     
-    static {
-        try {
-            InputStream in = Launcher.class.getResourceAsStream("/resources/config_icon.png");
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("/resources/Ubuntu-R.ttf")));
-            if (in != null) {
-                defaultIcon = ImageIO.read(in);
-            }
-        } catch (Exception e) {
-        }
-    }
 
     public Component getListCellRendererComponent(final JList<?> list, final Object value,
             int index, final boolean isSelected, boolean cellHasFocus) {

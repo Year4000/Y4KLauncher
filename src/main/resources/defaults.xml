@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <settings>
     <setting key="console.colored">true</setting>
-    <setting key="console.kill-process">false</setting>
     <setting key="java.arguments">-XX:PermSize=32m -XX:MaxPermSize=256m</setting>
     <setting key="java.console">false</setting>
     <setting key="java.max-memory">1024</setting>
     <setting key="java.min-memory">128</setting>
-    <setting key="launcher.reopen">false</setting>
-    <setting key="lwjgl.debug">false</setting>
-    <setting key="window.fullscreen">false</setting>
     <setting key="window.height">540</setting>
     <setting key="window.width">960</setting>
 </settings>

@@ -505,7 +505,6 @@ public class Launcher {
             public void run() {
                 LauncherFrame frame = new LauncherFrame();
                 frame.setVisible(true);
-                //frame.setIconImage(image);
             }
         });
     }
