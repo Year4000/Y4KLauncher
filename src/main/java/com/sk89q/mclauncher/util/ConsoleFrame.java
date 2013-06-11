@@ -143,7 +143,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
-            @Override
+            
             public void windowClosing(WindowEvent event) {
                 if (trackProc != null && killProcess) {
                     trackProc.destroy();
@@ -205,7 +205,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
         getContentPane().add(buttonsPanel, BorderLayout.NORTH);
         
         pastebinButton.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 String text = getPastableText();
                 log("Uploading paste (" + text.length() + " bytes)...\n", 
@@ -227,7 +227,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
             killButton.addActionListener(killProcessListener);
             
             minimizeButton.addActionListener(new ActionListener() {
-                @Override
+                
                 public void actionPerformed(ActionEvent e) {
                     self.setVisible(false);
                 }
@@ -276,13 +276,13 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
         return text;
     }
 
-    @Override
+    
     public void handleSuccess(String url) {
         log("Paste uploaded to: " + url + "\n", highlightedAttributes);
         UIUtil.openURL(url, this);
     }
 
-    @Override
+    
     public void handleError(String err) {
         log("Failed to upload paste: " + err + "\n", errorAttributes);
     }
@@ -392,7 +392,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
         final InputStream in = from;
         final PrintWriter out = new PrintWriter(outputStream, true);
         Thread thread = new Thread(new Runnable() {
-            @Override
+            
             public void run() {
                 byte[] buffer = new byte[1024];
                 try {
@@ -422,7 +422,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     private void track(Process process) {
         final PrintWriter out = new PrintWriter(getOutputStream(Color.MAGENTA), true);
         Thread thread = new Thread(new Runnable() {
-            @Override
+            
             public void run() {
                 try {
                     int code = trackProc.waitFor();
@@ -433,7 +433,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
                 }
                 
                 SwingUtilities.invokeLater(new Runnable() {
-                    @Override
+                    
                     public void run() {
                         if (killButton != null) {
                             killButton.setEnabled(false);
@@ -481,7 +481,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     }
     
     private ActionListener killProcessListener = new ActionListener() {
-        @Override
+        
         public void actionPerformed(ActionEvent e) {
             if (killButton != null) {
                 killButton.setEnabled(false);
@@ -500,7 +500,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     };
     
     private ActionListener reshowWindowListener = new ActionListener() {
-        @Override
+        
         public void actionPerformed(ActionEvent e) {
             self.setVisible(true);
             self.requestFocus();
@@ -517,7 +517,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
             this.attributes = attributes;
         }
         
-        @Override
+        
         public void flush() {
             String data = toString();
             if (data.length() == 0) return;
@@ -530,7 +530,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
      * Used to send logger messages to the console.
      */
     private class ConsoleLoggerHandler extends Handler {
-        @Override
+        
         public void publish(LogRecord record) {
             Level level = record.getLevel();
             Throwable t = record.getThrown();
@@ -548,11 +548,11 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
             }
         }
 
-        @Override
+        
         public void flush() {
         }
 
-        @Override
+        
         public void close() throws SecurityException {
         }
     }
