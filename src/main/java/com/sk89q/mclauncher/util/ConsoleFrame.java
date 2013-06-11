@@ -199,7 +199,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
 
         Box buttonsPanel = Box.createHorizontalBox();
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        JButton pastebinButton = new JButton("Upload Log...");
+        JButton pastebinButton = new JButton("Upload Log");
         buttonsPanel.add(pastebinButton);
         buttonsPanel.add(Box.createHorizontalStrut(5));
         getContentPane().add(buttonsPanel, BorderLayout.NORTH);
@@ -248,14 +248,14 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
         
         trayIcon = new TrayIcon(trayOkImage);
         trayIcon.setImageAutoSize(true);
-        trayIcon.setToolTip("Console for Y4K's Launcher");
+        trayIcon.setToolTip("Show console");
         
         trayIcon.addActionListener(reshowWindowListener);
        
         PopupMenu popup = new PopupMenu();
         MenuItem item;
 
-        popup.add(item = new MenuItem("Show messages and errors..."));
+        popup.add(item = new MenuItem("Show console"));
         item.addActionListener(reshowWindowListener);
        
         trayIcon.setPopupMenu(popup);

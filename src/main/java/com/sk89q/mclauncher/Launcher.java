@@ -25,7 +25,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -45,13 +44,11 @@ import javax.crypto.spec.PBEParameterSpec;
 import javax.swing.SwingUtilities;
 
 import com.sk89q.mclauncher.config.Constants;
-import com.sk89q.mclauncher.config.Def;
 import com.sk89q.mclauncher.config.LauncherOptions;
 import com.sk89q.mclauncher.security.X509KeyRing;
 import com.sk89q.mclauncher.update.UpdateCache;
 import com.sk89q.mclauncher.util.BasicArgsParser;
 import com.sk89q.mclauncher.util.BasicArgsParser.ArgsContext;
-import com.sk89q.mclauncher.util.ConsoleFrame;
 import com.sk89q.mclauncher.util.Util;
 
 /**
@@ -65,7 +62,6 @@ public class Launcher {
     public static final String VERSION;
     private static String noticesText;
 
-    private static volatile ConsoleFrame consoleFrame;
     private LauncherOptions options;
     private X509KeyRing keyRing;
     private static Launcher instance;
@@ -376,36 +372,6 @@ public class Launcher {
             cache.setLastUpdateId(version);
         } finally {
             Util.close(in);
-        }
-    }
-    
-    /**
-     * Show the console window. If the console window doesn't yet exist, it
-     * will be created. If it already exists, a new one will not be created.
-     * Messages logged to the logging system while the console is active
-     * will appear in the console.
-     */
-    public static void showConsole() {
-        if (consoleFrame != null) return;
-
-        final boolean colorEnabled = Launcher.getInstance().getOptions()
-                .getSettings().getBool(Def.COLORED_CONSOLE, true);
-        
-        try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    ConsoleFrame frame = consoleFrame;
-                    if (frame == null || frame.isActive()) {
-                        frame = new ConsoleFrame(10000, colorEnabled);
-                        consoleFrame = frame;
-                        frame.setTitle("Launcher Debugging Console");
-                        frame.registerLoggerHandler();
-                        frame.setVisible(true);
-                    }
-                }
-            });
-        } catch (InterruptedException e) {
-        } catch (InvocationTargetException e) {
         }
     }
 

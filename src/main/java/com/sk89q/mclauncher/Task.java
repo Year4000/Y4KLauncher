@@ -124,7 +124,7 @@ public abstract class Task implements Runnable {
             } catch (InvocationTargetException e1) {
             }
         } catch (Throwable t) {
-            Launcher.showConsole();
+            //Launcher.showConsole();
             logger.log(Level.SEVERE, "Unexpected error occurred (please report this error in full)", t);
             JOptionPane.showMessageDialog(component,
                     "An unexpected error has occurred. Please report the error shown in the newly-shown console.",
