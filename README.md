@@ -1,4 +1,5 @@
-![Y4K](http://www.year4000.net/logo_square.png) Year4000's Launcher
+![Y4K](http://www.year4000.net/logo_square.png)
+Year4000's Launcher
 =======================
 
 Year4000's Launcher is a modified version of SK's Minecraft Launcher.
