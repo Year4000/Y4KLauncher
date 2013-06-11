@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>3</version>
+  <version>3.1.0.0</version>
   <name>Year4000's Launcher</name>
   <description>Year4000's Launcher for Minecraft</description>
   <url>http://www.year4000.net</url>
@@ -184,10 +184,10 @@
                 <maxHeapSize>1024</maxHeapSize>
               </jre>
               <versionInfo>
-                <fileVersion>${project.version}.0.0.0</fileVersion> <!-- Cannot use ${project.version} -->
-                <txtFileVersion>${project.version}.0.0.0</txtFileVersion>
-                <productVersion>${project.version}.0.0.0</productVersion>
-                <txtProductVersion>${project.version}.0.0.0</txtProductVersion>
+                <fileVersion>${project.version}</fileVersion> <!-- Cannot use ${project.version} -->
+                <txtFileVersion>${project.version}</txtFileVersion>
+                <productVersion>${project.version}</productVersion>
+                <txtProductVersion>${project.version}</txtProductVersion>
                 <fileDescription>${project.name}</fileDescription>
                 <copyright>ewized</copyright>
                 <productName>${project.name}</productName>
