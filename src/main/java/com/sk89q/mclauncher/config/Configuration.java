@@ -19,6 +19,7 @@
 package com.sk89q.mclauncher.config;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +34,7 @@ import javax.imageio.ImageIO;
 
 import com.sk89q.mclauncher.Launcher;
 import com.sk89q.mclauncher.util.SettingsList;
+import com.sk89q.mclauncher.util.Util;
 
 import org.spout.nbt.CompoundMap;
 import org.spout.nbt.CompoundTag;
@@ -56,6 +58,7 @@ public class Configuration {
     private URL updateUrl;
     private SettingsList settings = new SettingsList();
     private boolean builtIn = false;
+    private boolean checkedIcon;
     private BufferedImage cachedIcon;
     
     /**
@@ -259,7 +262,7 @@ public class Configuration {
     public File getMinecraftDir() {
         File path;
         if (getCustomBasePath() != null) {
-            return Launcher.toMinecraftDir(getCustomBasePath());
+            path = Launcher.toMinecraftDir(getCustomBasePath());
         } else if (getAppDir() == null) {
             path = Launcher.getOfficialDataDir();
         } else {
@@ -276,7 +279,36 @@ public class Configuration {
      * @return icon or null
      */
     public BufferedImage getIcon() {
+    	if (cachedIcon == null && !checkedIcon) {
+            checkedIcon = true;
+            loadIcon();
+        }
         return cachedIcon;
+    }
+
+    private Configuration loadIcon() {
+        File iconPath = new File(getMinecraftDir(), "server_icon.png");
+        if (!iconPath.exists()) {
+            return null;
+        }
+        
+        FileInputStream in = null;
+        try {
+        	in = new FileInputStream(iconPath);
+        	BufferedInputStream bis;
+        	bis = new BufferedInputStream(in);
+            BufferedImage icon = ImageIO.read(bis);
+            
+            if (icon.getWidth() == 32 && icon.getHeight() == 32) {
+                cachedIcon = icon;
+            }
+        } catch (IOException e) {
+            logger.warning("Failed to load icon at " + iconPath);
+        } finally {
+            Util.close(in);
+        }
+        
+        return this;
     }
     
     /**
@@ -287,13 +319,16 @@ public class Configuration {
      */
     public Configuration loadIcon(String path) {
         InputStream in = Launcher.class.getResourceAsStream(path);
+        File iconPath = new File(getMinecraftDir(), "server_icon.png");
         
-        if (in != null) {
+        if (in != null && !iconPath.exists()) {
             try {
                 cachedIcon = ImageIO.read(in);
             } catch (IOException e) {
                 logger.warning("Failed to load icon at " + path);
             }
+        } else{
+        	loadIcon();
         }
         
         return this;

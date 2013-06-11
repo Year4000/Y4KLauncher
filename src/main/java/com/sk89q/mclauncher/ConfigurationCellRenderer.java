@@ -7,7 +7,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -21,9 +23,17 @@ public class ConfigurationCellRenderer implements ListCellRenderer<Object> {
     private static BufferedImage defaultIcon;
     private Font font = new Font("Arial", Font.PLAIN, 12);
     
+    static {
+        try {
+            InputStream in = Launcher.class.getResourceAsStream("/resources/config_icon.png");
+            if (in != null) {
+                defaultIcon = ImageIO.read(in);
+            }
+        } catch (Exception e) {
+        }
+    }
 
-    public Component getListCellRendererComponent(final JList<?> list, final Object value,
-            int index, final boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(final JList<?> list, final Object value, int index, final boolean isSelected, boolean cellHasFocus) {
         final Configuration configuration = (Configuration) value;
         
         JIconPanel panel = new JIconPanel(configuration.getIcon());

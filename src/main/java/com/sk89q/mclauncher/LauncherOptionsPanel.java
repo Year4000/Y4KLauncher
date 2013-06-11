@@ -33,15 +33,18 @@ public class LauncherOptionsPanel extends OptionsPanel {
     
     
     protected void buildControls() {
-        createFieldGroup("Launcher");
-        addField(Def.LAUNCHER_REOPEN, new JCheckBox("Show the launcher on Minecraft close"));
+    	createFieldGroup("Minecraft Start Options");
         addField(Def.LAUNCHER_GAMEUPDATE, new JCheckBox("Force a game update"));
         addField(Def.LAUNCHER_ALLOW_OFFLINE_NAME, new JCheckBox("Play in offline mode"));
-        addField(Def.LAUNCHER_LAUNCH_CONSOLE, new JCheckBox("Launch with console"));
+        addField(Def.LAUNCHER_LAUNCH_CONSOLE, new JCheckBox("Start with console"));
+    	
+        createFieldGroup("Launcher Options");
+        addField(Def.LAUNCHER_REOPEN, new JCheckBox("Show the launcher on Minecraft close"));
 
-        createFieldGroup("Console");
+        createFieldGroup("Console Options");
         addField(Def.COLORED_CONSOLE, new JCheckBox("Use colors in the console"));
         addField(Def.CONSOLE_KILLS_PROCESS, new JCheckBox("Kill Minecraft on console close"));
+        addField(Def.JAVA_CONSOLE, new JCheckBox("Always show console"));
 
     }
 

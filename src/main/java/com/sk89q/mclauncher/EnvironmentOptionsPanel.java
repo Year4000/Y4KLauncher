@@ -54,7 +54,6 @@ public class EnvironmentOptionsPanel extends OptionsPanel {
             .setToolTipText("List of extra classpath entries (separated by " + File.pathSeparator + ").");
         addField(Def.JAVA_WRAPPER_PROGRAM, "Wrapper program path:", new JTextField())
             .setToolTipText("A path to a program that will wrap around Java.");
-        addField(Def.JAVA_CONSOLE, new JCheckBox("Always show console"));
         
         createFieldGroup("Display");
         addField(Def.LWJGL_DEBUG, new JCheckBox("LWJGL debugging mode"));
