@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -41,6 +42,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.sk89q.mclauncher.config.Constants;
@@ -449,8 +451,17 @@ public class Launcher {
 
         new Launcher();
         SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                LauncherFrame frame = new LauncherFrame();
+			public void run() {
+                final LauncherFrame frame = new LauncherFrame();
+                
+				try {
+					URL url = new URL("http://update.year4000.net/mclauncher/");
+					BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(url.openStream()));
+	                if(!bufferedreader.readLine().equalsIgnoreCase(VERSION)){
+	                	JOptionPane.showMessageDialog(frame, "A new update is available. Get it here http://www.year4000.net/");
+	                }
+				} catch (Exception e) {}
+                
                 frame.setVisible(true);
                 
                 if (username != null) {
@@ -458,7 +469,7 @@ public class Launcher {
                 }
                 if (autoLaunch) {
                     frame.launch();
-                }
+                }              
             }
         });
     }
@@ -470,7 +481,7 @@ public class Launcher {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 LauncherFrame frame = new LauncherFrame();
-                frame.setVisible(true);
+                	frame.setVisible(true);
             }
         });
     }
