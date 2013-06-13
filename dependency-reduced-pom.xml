@@ -55,20 +55,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-jarsigner-plugin</artifactId>
-        <version>1.2</version>
-        <executions>
-          <execution>
-            <id>sign</id>
-          </execution>
-        </executions>
-        <configuration>
-          <keystore>${signerKeyStore}</keystore>
-          <alias>${signerAlias}</alias>
-          <storepass>${signerPassword}</storepass>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptor>${basedir}/src/main/assembly/default.xml</descriptor>
@@ -116,7 +102,7 @@
           <internetEnable>true</internetEnable>
           <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
           <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
-          <jvmVersion>1.6+</jvmVersion>
+          <jvmVersion>1.5+</jvmVersion>
           <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
           <diskImageFile>${project.build.directory}/${project.build.finalName}.dmg</diskImageFile>
           <iconFile>icon.icns</iconFile>
@@ -143,7 +129,7 @@
               </classPath>
               <icon>${basedir}/icon.ico</icon>
               <jre>
-                <minVersion>1.6.0</minVersion>
+                <minVersion>1.5.0</minVersion>
                 <initialHeapSize>32</initialHeapSize>
                 <maxHeapSize>1024</maxHeapSize>
               </jre>
