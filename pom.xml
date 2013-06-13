@@ -2,17 +2,21 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>3.1.0.0</version>
+  <version>4.0.0.0</version>
   <name>Year4000's Launcher</name>
   <description>Year4000's Launcher for Minecraft</description>
   <url>http://www.year4000.net</url>
 
+  <organization>
+  	<name>Year4000</name>
+  	<url>http://www.year4000.net/</url>
+  </organization>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
   <repositories>
-    <!-- Provides us with Simple NBT -->
     <repository>
       <id>spout-repo</id>
       <url>http://repo.spout.org</url>
@@ -25,11 +29,11 @@
       <artifactId>simplenbt</artifactId>
       <version>1.0.4-SNAPSHOT</version>
     </dependency>
-  <dependency>
-    <groupId>com.github.jponge</groupId>
-    <artifactId>lzma-java</artifactId>
-    <version>1.2</version>
-  </dependency>
+    <dependency>
+      <groupId>com.github.jponge</groupId>
+      <artifactId>lzma-java</artifactId>
+      <version>1.2</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -40,11 +44,8 @@
         <filtering>false</filtering>
         <directory>${basedir}/src/main/resources/</directory>
         <includes>
-          <include>mcupdate.cer</include>
-          <include>mclogin.cer</include>
-          <include>sk89q.cer</include>
-          <include>update.xml</include>
-          <include>defaults.xml</include>
+          <include>*.cer</include>
+          <include>*.xml</include>
           <include>*.png</include>
         </includes>
       </resource>
@@ -58,15 +59,6 @@
       </resource>
     </resources>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -85,38 +77,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptor>${basedir}/src/main/assembly/default.xml</descriptor>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <arguments>-DsignerKeyStore=${signerKeyStore} -DsignerAlias=${signerAlias} -DsignerPassword=${signerPassword}</arguments>
-          <preparationGoals>assembly:assembly</preparationGoals>
-          <goals>assembly:assembly</goals>
-          <tagNameFormat>release-@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <minimizeJar>true</minimizeJar>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>osxappbundle-maven-plugin</artifactId>
         <version>1.0-alpha-2</version>
@@ -126,10 +86,10 @@
           <internetEnable>true</internetEnable>
           <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
           <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
-          <jvmVersion>1.5+</jvmVersion>
+          <jvmVersion>1.7+</jvmVersion>
           <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
           <diskImageFile>${project.build.directory}/${project.build.finalName}.dmg</diskImageFile>
-          <iconFile>icon.icns</iconFile>
+          <iconFile>${basedir}/icon.icns</iconFile>
         </configuration>
         <executions>
           <execution>
@@ -161,17 +121,17 @@
               </classPath>
               <icon>${basedir}/icon.ico</icon>
               <jre>
-                <minVersion>1.5.0</minVersion>
+                <minVersion>1.7.0</minVersion>
                 <initialHeapSize>32</initialHeapSize>
                 <maxHeapSize>1024</maxHeapSize>
               </jre>
               <versionInfo>
-                <fileVersion>${project.version}</fileVersion> <!-- Cannot use ${project.version} -->
+                <fileVersion>${project.version}</fileVersion>
                 <txtFileVersion>${project.version}</txtFileVersion>
                 <productVersion>${project.version}</productVersion>
                 <txtProductVersion>${project.version}</txtProductVersion>
-                <fileDescription>${project.name}</fileDescription>
-                <copyright>ewized</copyright>
+                <fileDescription>${project.description}</fileDescription>
+                <copyright>${project.organization.name}</copyright>
                 <productName>${project.name}</productName>
                 <internalName>${project.name}</internalName>
                 <originalFilename>${project.build.finalName}.exe</originalFilename>
@@ -182,4 +142,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
