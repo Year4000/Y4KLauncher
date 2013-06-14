@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>5.0.0.0</version>
+  <version>6.0.0.0</version>
   <name>Year4000's Launcher</name>
   <description>Year4000's Launcher for Minecraft</description>
   <url>http://www.year4000.net</url>
@@ -64,8 +64,8 @@
 	    <artifactId>maven-compiler-plugin</artifactId>
 	    <version>2.3.2</version>
 	    <configuration>
-	    <source>1.7</source>
-	    <target>1.7</target>
+	    <source>1.6</source>
+	    <target>1.6</target>
 	    </configuration>
 	  </plugin>
       <plugin>
@@ -111,7 +111,7 @@
           <internetEnable>true</internetEnable>
           <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
           <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
-          <jvmVersion>1.7+</jvmVersion>
+          <jvmVersion>1.6+</jvmVersion>
           <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
           <diskImageFile>${project.build.directory}/${project.build.finalName}.dmg</diskImageFile>
           <iconFile>${basedir}/icon.icns</iconFile>
@@ -146,7 +146,7 @@
               </classPath>
               <icon>${basedir}/icon.ico</icon>
               <jre>
-                <minVersion>1.7.0</minVersion>
+                <minVersion>1.6.0</minVersion>
                 <initialHeapSize>32</initialHeapSize>
                 <maxHeapSize>1024</maxHeapSize>
               </jre>
