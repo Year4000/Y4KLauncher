@@ -18,6 +18,7 @@
 
 package com.sk89q.mclauncher;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -453,16 +454,28 @@ public class Launcher {
         SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
                 final LauncherFrame frame = new LauncherFrame();
+                int updateOption = 1;
+                String version = "0";
                 
 				try {
 					URL url = new URL("http://update.year4000.net/mclauncher/");
 					BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(url.openStream()));
-	                if(!bufferedreader.readLine().equalsIgnoreCase(VERSION)){
-	                	JOptionPane.showMessageDialog(frame, "A new update is available. Get it here http://www.year4000.net/");
+					version = bufferedreader.readLine();
+	                if(!version.substring(0,1).equalsIgnoreCase(VERSION.substring(0,1))){
+	                	updateOption = JOptionPane.showConfirmDialog(frame, "Do you want to download the update?", "Version " + version + " is available", JOptionPane.YES_NO_OPTION);
 	                }
 				} catch (Exception e) {}
                 
-                frame.setVisible(true);
+                if(updateOption != 0){
+                	frame.setVisible(true);
+                } else{
+                	try {
+                		Desktop.getDesktop().browse(java.net.URI.create("http://update.year4000.net/?page=mclauncher/v" + version));
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(frame, "Can't open website download it at: http://update.year400.net/mclauncher/");
+					}
+                	System.exit(0); 
+                }
                 
                 if (username != null) {
                     frame.setLogin(username, password);
