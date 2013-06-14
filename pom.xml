@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
-  <version>4.0.0.0</version>
+  <version>5.0.0.0</version>
   <name>Year4000's Launcher</name>
   <description>Year4000's Launcher for Minecraft</description>
   <url>http://www.year4000.net</url>
@@ -59,6 +59,15 @@
       </resource>
     </resources>
     <plugins>
+	  <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-compiler-plugin</artifactId>
+	    <version>2.3.2</version>
+	    <configuration>
+	    <source>1.7</source>
+	    <target>1.7</target>
+	    </configuration>
+	  </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -74,6 +83,22 @@
             <manifestEntries>
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <minimizeJar>true</minimizeJar>
         </configuration>
       </plugin>
       <plugin>

@@ -4,20 +4,21 @@
   <groupId>com.sk89q</groupId>
   <artifactId>mclauncher</artifactId>
   <name>Year4000's Launcher</name>
-  <version>3.1.0.0</version>
+  <version>5.0.0.0</version>
   <description>Year4000's Launcher for Minecraft</description>
   <url>http://www.year4000.net</url>
+  <organization>
+    <name>Year4000</name>
+    <url>http://www.year4000.net/</url>
+  </organization>
   <build>
     <resources>
       <resource>
         <targetPath>resources</targetPath>
         <directory>${basedir}/src/main/resources/</directory>
         <includes>
-          <include>mcupdate.cer</include>
-          <include>mclogin.cer</include>
-          <include>sk89q.cer</include>
-          <include>update.xml</include>
-          <include>defaults.xml</include>
+          <include>*.cer</include>
+          <include>*.xml</include>
           <include>*.png</include>
         </includes>
       </resource>
@@ -35,8 +36,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       <plugin>
@@ -52,21 +53,6 @@
             </manifest>
             <manifestEntries />
           </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptor>${basedir}/src/main/assembly/default.xml</descriptor>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <arguments>-DsignerKeyStore=${signerKeyStore} -DsignerAlias=${signerAlias} -DsignerPassword=${signerPassword}</arguments>
-          <preparationGoals>assembly:assembly</preparationGoals>
-          <goals>assembly:assembly</goals>
-          <tagNameFormat>release-@{project.version}</tagNameFormat>
         </configuration>
       </plugin>
       <plugin>
@@ -102,10 +88,10 @@
           <internetEnable>true</internetEnable>
           <mainClass>com.sk89q.mclauncher.Launcher</mainClass>
           <javaApplicationStub>${basedir}/src/main/resources/JavaApplicationStub</javaApplicationStub>
-          <jvmVersion>1.5+</jvmVersion>
+          <jvmVersion>1.7+</jvmVersion>
           <zipFile>${project.build.directory}/${project.build.finalName}.app.zip</zipFile>
           <diskImageFile>${project.build.directory}/${project.build.finalName}.dmg</diskImageFile>
-          <iconFile>icon.icns</iconFile>
+          <iconFile>${basedir}/icon.icns</iconFile>
         </configuration>
       </plugin>
       <plugin>
@@ -129,7 +115,7 @@
               </classPath>
               <icon>${basedir}/icon.ico</icon>
               <jre>
-                <minVersion>1.5.0</minVersion>
+                <minVersion>1.7.0</minVersion>
                 <initialHeapSize>32</initialHeapSize>
                 <maxHeapSize>1024</maxHeapSize>
               </jre>
@@ -138,8 +124,8 @@
                 <txtFileVersion>${project.version}</txtFileVersion>
                 <productVersion>${project.version}</productVersion>
                 <txtProductVersion>${project.version}</txtProductVersion>
-                <fileDescription>${project.name}</fileDescription>
-                <copyright>ewized</copyright>
+                <fileDescription>${project.description}</fileDescription>
+                <copyright>${project.organization.name}</copyright>
                 <productName>${project.name}</productName>
                 <internalName>${project.name}</internalName>
                 <originalFilename>${project.build.finalName}.exe</originalFilename>

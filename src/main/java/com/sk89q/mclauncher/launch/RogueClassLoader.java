@@ -42,7 +42,7 @@ import sun.misc.URLClassPath;
 public class RogueClassLoader extends URLClassLoader {
     
     private static final Logger logger = Logger.getLogger(RogueClassLoader.class.getCanonicalName());
-    private URLClassPath urlClassPath;
+	private URLClassPath urlClassPath;
 
     public RogueClassLoader(URL[] urls, ClassLoader parent,
             URLStreamHandlerFactory factory) {
