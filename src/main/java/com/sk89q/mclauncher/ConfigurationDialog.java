@@ -140,11 +140,8 @@ public class ConfigurationDialog extends JDialog {
             
             if (configuration.isBuiltIn()) {
                 nameText.setEnabled(false);
-                customPathCheck.setEnabled(false);
-                pathText.setEnabled(false);
                 customUpdateCheck.setEnabled(false);
                 urlText.setEnabled(false);
-                browseBtn.setEnabled(false);
             }
         }
     }

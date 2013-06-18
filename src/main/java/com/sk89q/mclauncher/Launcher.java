@@ -309,9 +309,6 @@ public class Launcher {
             default:
                 workingDir = new File(homeDir, "Y4KLauncher");
         }
-        if (!new File(workingDir, "config.xml").exists()) {
-            workingDir = getOfficialDataDir();
-        }
         if (!workingDir.exists() && !workingDir.mkdirs()) {
             throw new RuntimeException("Unable to create " + workingDir);
         }
