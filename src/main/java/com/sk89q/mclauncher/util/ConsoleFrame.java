@@ -69,7 +69,6 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     private static final long serialVersionUID = -3266712569265372777L;
     private static final Logger rootLogger = Logger.getLogger("");
     private static final Image trayOkImage;
-    private static final Image trayClosedImage;
 
     private final ConsoleFrame self = this;
     private boolean running = true;
@@ -91,7 +90,6 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     
     static {
         trayOkImage = UIUtil.readIconImage("/resources/icon.png");
-        trayClosedImage = UIUtil.readIconImage("/resources/icon.png");
     }
     
     /**
@@ -141,34 +139,26 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
             track(proc);
         }
 
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             
             public void windowClosing(WindowEvent event) {
-                if (trackProc != null && killProcess) {
-                    trackProc.destroy();
-                    trackProc = null;
+                running = false;
+                
+                // Tell threads waiting on us that we're done
+                synchronized (self) {
+                    self.notifyAll();
                 }
-                if (trackProc == null) {
-                    running = false;
-                    
-                    // Tell threads waiting on us that we're done
-                    synchronized (self) {
-                        self.notifyAll();
-                    }
-                    
-                    if (trayIcon != null) {
-                        SystemTray.getSystemTray().remove(trayIcon);
-                    }
-                    
-                    if (loggerHandler != null) {
-                        rootLogger.removeHandler(loggerHandler);
-                    }
-                    
-                    event.getWindow().dispose();
-                } else {
-                    self.setVisible(false);
+                
+                if (trayIcon != null) {
+                    SystemTray.getSystemTray().remove(trayIcon);
                 }
+                
+                if (loggerHandler != null) {
+                    rootLogger.removeHandler(loggerHandler);
+                }
+                
+                event.getWindow().dispose();
             }
         });
     }
@@ -242,7 +232,7 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
     }
     
     private boolean setupTrayIcon() {
-        if (!SystemTray.isSupported() || trayOkImage == null || trayClosedImage == null) {
+        if (!SystemTray.isSupported() || trayOkImage == null) {
             return false;
         }
         
@@ -441,10 +431,6 @@ public class ConsoleFrame extends JFrame implements PasteCallback {
                         if (minimizeButton != null) {
                             minimizeButton.setEnabled(false);
                         }
-                        if (trayIcon != null) {
-                            trayIcon.setImage(trayClosedImage);
-                        }
-                        reshowWindowListener.actionPerformed(null);
                     }
                 });
             }
