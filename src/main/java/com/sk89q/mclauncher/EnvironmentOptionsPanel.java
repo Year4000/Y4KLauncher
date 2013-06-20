@@ -39,8 +39,8 @@ public class EnvironmentOptionsPanel extends OptionsPanel {
     
     protected void buildControls() {
         createFieldGroup("Game window");
-        addField(Def.WINDOW_WIDTH, "Width (def. 854)", new JSpinner(new SpinnerNumberModel(0, 0, 1024 * 15, 128)));
-        addField(Def.WINDOW_HEIGHT, "Height (def. 480):", new JSpinner(new SpinnerNumberModel(0, 0, 1024 * 15, 128)));
+        addField(Def.WINDOW_WIDTH, "Width (Default 854):", new JSpinner(new SpinnerNumberModel(0, 0, 1024 * 15, 128)));
+        addField(Def.WINDOW_HEIGHT, "Height (Default 480):", new JSpinner(new SpinnerNumberModel(0, 0, 1024 * 15, 128)));
         addField(Def.WINDOW_FULLSCREEN, new JCheckBox("Always open full screen"));
         
         createFieldGroup("Java");
