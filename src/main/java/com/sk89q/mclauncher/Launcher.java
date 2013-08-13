@@ -467,7 +467,7 @@ public class Launcher {
                 	frame.setVisible(true);
                 } else{
                 	try {
-                		Desktop.getDesktop().browse(java.net.URI.create("http://update.year4000.net/?page=mclauncher/v" + version));
+                		Desktop.getDesktop().browse(java.net.URI.create("http://update.year4000.net/mclauncher/v" + version));
 					} catch (IOException e) {
 						JOptionPane.showMessageDialog(frame, "Can't open website download it at: http://update.year400.net/mclauncher/");
 					}
