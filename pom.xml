@@ -11,15 +11,15 @@
   	<name>Year4000</name>
   	<url>http://www.year4000.net/</url>
   </organization>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+
   <repositories>
     <repository>
-      <id>spout-repo</id>
-      <url>http://repo.spout.org</url>
+      <id>sonatype-repo</id>
+      <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
   </repositories>
   
