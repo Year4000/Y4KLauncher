@@ -18,8 +18,8 @@
 
   <repositories>
     <repository>
-      <id>sonatype-repo</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
+      <id>sk89q-repo</id>
+      <url>http://maven.sk89q.com/repo/</url>
     </repository>
   </repositories>
   
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>org.spout</groupId>
       <artifactId>simplenbt</artifactId>
-      <version>1.0.5-SNAPSHOT</version>
+      <version>1.0.4-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.github.jponge</groupId>
